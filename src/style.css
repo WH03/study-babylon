@@ -1,0 +1,9 @@
+:root {
+  line-height: 1.5;
+  font-weight: 400;
+  text-align: center;
+}
+canvas {
+  width: 70%;
+  height: 70%;
+}
