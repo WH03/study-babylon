@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/earcut": "^3.0.0",
     "typescript": "~5.9.3",
     "vite": "npm:rolldown-vite@7.1.14"
   },
@@ -19,6 +20,7 @@
   },
   "dependencies": {
     "babylonjs": "^8.33.2",
-    "babylonjs-loaders": "^8.33.4"
+    "babylonjs-loaders": "^8.33.4",
+    "earcut": "^3.0.2"
   }
 }
