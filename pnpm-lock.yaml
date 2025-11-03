@@ -14,6 +14,9 @@ importers:
       babylonjs:
         specifier: ^8.33.2
         version: 8.33.4
+      babylonjs-inspector:
+        specifier: ^8.33.2
+        version: 8.34.0
       babylonjs-loaders:
         specifier: ^8.33.4
         version: 8.33.4
@@ -152,14 +155,41 @@ packages:
     resolution: {integrity: sha512-HqZ5rWlFjGiV0tDm3UxxgNRqsOTniqoKZu0pIAfh7TZQMGuZK+hH0drySty0si0QXj1ieop4+SkSfPZBPPkHig==}
     engines: {node: '>=14'}
 
+  babylonjs-addons@8.34.0:
+    resolution: {integrity: sha512-iCHjujaHQ0wY6dqlqrqtUD8QAaBuWodgVSNyksv163ioGbFi8DLbHqsJh6G/NKM6JECsPiJcmO87zHQfRTH2bg==}
+
   babylonjs-gltf2interface@8.33.4:
     resolution: {integrity: sha512-Nqc54fsBznPBhOKuzjmP/I6gohwutJ0OkCN81tZEwf+kw0Y2MbwdiweTuq24ok3WDUPCKpkOmgraZKJkY74H9g==}
+
+  babylonjs-gltf2interface@8.34.0:
+    resolution: {integrity: sha512-S9NTYnnI+shdM1rbZus4FZP0fbOvW4380o0BWL14v21Or/5SKtbtgnbNabUGpiJQ2hDTMeslSj5vXkmlZ/me+g==}
+
+  babylonjs-gui-editor@8.34.0:
+    resolution: {integrity: sha512-fRa/Ch8h2KkFrdCY0FHmVo1c4a0mYxN4vVHkjL9/O+QcSXDmC3hWS+3/dATv/ORKCU2/aBDrLa28WR4tbY1jhQ==}
+
+  babylonjs-gui@8.34.0:
+    resolution: {integrity: sha512-pKji7/lMi4HJ1jHNINvV09SPACearZ2mzkEIjg/z4MocP4H5ZbyIHprPM+xM+ckcWQlca89GLPeVaCuaMjB5BA==}
+
+  babylonjs-inspector@8.34.0:
+    resolution: {integrity: sha512-NTee6KpPKrqz5yUCkUT5dLw8r9WvVoP/yk7nBb52f9BTOuEXElGlANMG4/zwaFvxgy9xm1r6oQInyrGt4dCcPQ==}
 
   babylonjs-loaders@8.33.4:
     resolution: {integrity: sha512-kZiFjd8M8fhjXqIRcNX56fLXXLnrDnkItAsugcKJShuprHF87e+ZIktNFMjzFd6AIdEI6VGr7NPjo9igBEIQfA==}
 
+  babylonjs-loaders@8.34.0:
+    resolution: {integrity: sha512-W5SYqBEw3p2jMVzSjZcOm31qsSBwFRTiEhPHYMFtkVJexEogSWLPJKVm0dxUg/UEYXjryNMNHo4fZDiosoF54A==}
+
+  babylonjs-materials@8.34.0:
+    resolution: {integrity: sha512-Bu8k8ktFZ3GC995Bb1u3KqyRI2VuyGJ+Nafd+vgkR5rNon6RNNM6aqClqWCcsziagybESv+gyOU5dqardPbX5g==}
+
+  babylonjs-serializers@8.34.0:
+    resolution: {integrity: sha512-hPgXBs2CMOvXXYEjzwVtkSd+8kmBhqyDoTgaPHn2dWfH2naksa+LguNKwDdFth50t5zEls71CcCEFyImrmLKBA==}
+
   babylonjs@8.33.4:
     resolution: {integrity: sha512-vnmb+8UEhyRUfOaW/ASWqxkHc3f8hTCCt0X+Z9usabnaoX5/pfCrdnmftOCTTkkZLQkHq0PAgYmULvQJuIq9KQ==}
+
+  babylonjs@8.34.0:
+    resolution: {integrity: sha512-8b9bchC7vnS/DFbz0btxJtnzs66EQ2uYsNKOLJkENO6o6HBje1EhQ8w6XTGczWgfV0JQ4HpJNLaB0wgPECh/Rg==}
 
   detect-libc@2.1.2:
     resolution: {integrity: sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==}
@@ -417,14 +447,55 @@ snapshots:
 
   ansis@4.2.0: {}
 
+  babylonjs-addons@8.34.0:
+    dependencies:
+      babylonjs: 8.34.0
+
   babylonjs-gltf2interface@8.33.4: {}
+
+  babylonjs-gltf2interface@8.34.0: {}
+
+  babylonjs-gui-editor@8.34.0:
+    dependencies:
+      babylonjs: 8.34.0
+      babylonjs-gui: 8.34.0
+
+  babylonjs-gui@8.34.0:
+    dependencies:
+      babylonjs: 8.34.0
+
+  babylonjs-inspector@8.34.0:
+    dependencies:
+      babylonjs: 8.34.0
+      babylonjs-addons: 8.34.0
+      babylonjs-gui: 8.34.0
+      babylonjs-gui-editor: 8.34.0
+      babylonjs-loaders: 8.34.0
+      babylonjs-materials: 8.34.0
+      babylonjs-serializers: 8.34.0
 
   babylonjs-loaders@8.33.4:
     dependencies:
       babylonjs: 8.33.4
       babylonjs-gltf2interface: 8.33.4
 
+  babylonjs-loaders@8.34.0:
+    dependencies:
+      babylonjs: 8.34.0
+      babylonjs-gltf2interface: 8.34.0
+
+  babylonjs-materials@8.34.0:
+    dependencies:
+      babylonjs: 8.34.0
+
+  babylonjs-serializers@8.34.0:
+    dependencies:
+      babylonjs: 8.34.0
+      babylonjs-gltf2interface: 8.34.0
+
   babylonjs@8.33.4: {}
+
+  babylonjs@8.34.0: {}
 
   detect-libc@2.1.2: {}
 
