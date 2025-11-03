@@ -8,6 +8,7 @@ import {
   Axis,
   Space,
   Tools,
+  Animation,
 } from "babylonjs";
 
 import "babylonjs-loaders";
@@ -68,35 +69,25 @@ export default class BasicScene {
         Animation.ANIMATIONLOOPMODE_CYCLE
       );
 
-      // const carKeys = [];
-      // carKeys.push(
-      //   {
-      //     frame: 0,
-      //     value: 8,
-      //   },
-      //   {
-      //     frame: 150,
-      //     value: -7,
-      //   },
-      //   {
-      //     frame: 200,
-      //     value: -7,
-      //   }
-      // );
+      const carKeys = [];
+      carKeys.push(
+        {
+          frame: 0,
+          value: 8,
+        },
+        {
+          frame: 150,
+          value: -7,
+        },
+        {
+          frame: 200,
+          value: -7,
+        }
+      );
 
-      // carAanimation.setKeys(carKeys);
-      // car.animations.push(carAanimation);
-      // scene.beginAnimation(car, 0, 200, true);
-
-      // 车轮动画
-      // const wheelRB = scene.getMeshByName("weelRB");
-      // const wheelRF = scene.getMeshByName("weelRF");
-      // const wheelLB = scene.getMeshByName("weelLB");
-      // const wheelLF = scene.getMeshByName("wheelLF");
-      // scene.beginAnimation(wheelRB, 0, 100, true);
-      // scene.beginAnimation(wheelRF, 0, 30, true);
-      // scene.beginAnimation(wheelLB, 0, 30, true);
-      // scene.beginAnimation(wheelLF, 0, 30, true);
+      carAanimation.setKeys(carKeys);
+      car.animations.push(carAanimation);
+      scene.beginAnimation(car, 0, 200, true);
     });
 
     class walk {
