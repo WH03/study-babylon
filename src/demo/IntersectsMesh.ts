@@ -121,11 +121,9 @@ export default class BasicScene {
       const dude = result.meshes[0];
       dude.scaling = new Vector3(0.008, 0.008, 0.008);
       dude.position = new Vector3(-6, 0, 0);
-      // this.scene.beginAnimation(result.skeletons[0], 0, 100, true);
+      this.scene.beginAnimation(result.skeletons[0], 0, 100, true);
       dude.rotate(Axis.Y, Tools.ToRadians(-95), Space.LOCAL);
       const startRotation = dude.rotationQuaternion!.clone();
-
-      scene.beginAnimation(result.skeletons[0], 0, 100, true, 1.0);
 
       let distance = 0;
       let step = 0.015;
