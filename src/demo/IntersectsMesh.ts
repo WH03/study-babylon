@@ -9,6 +9,8 @@ import {
   Space,
   Tools,
   Animation,
+  MeshBuilder,
+  StandardMaterial,
 } from "babylonjs";
 
 import "babylonjs-loaders";
@@ -16,10 +18,11 @@ import "babylonjs-loaders";
 export default class BasicScene {
   engine: Engine;
   scene: Scene;
-
+  carReady: boolean;
   constructor(canvas: HTMLCanvasElement) {
     this.engine = new Engine(canvas);
     this.scene = this.CreateScene(canvas);
+    this.carReady = false;
 
     this.engine.runRenderLoop(() => {
       this.scene.render();
@@ -37,10 +40,24 @@ export default class BasicScene {
     );
     camera.attachControl(canvas, true);
     new HemisphericLight("light", new Vector3(1, 1, 0), scene);
+    // 创建碰撞盒子
+    this.createBox();
     // 创建车
     this.createCar(scene);
 
     return scene;
+  }
+  // 创建碰撞盒子
+  createBox() {
+    const wireFrame = new StandardMaterial("wireFrame");
+    wireFrame.wireframe = true;
+    const hitBox = MeshBuilder.CreateBox(
+      "hitBox",
+      { width: 0.5, height: 0.6, depth: 4.5 },
+      this.scene
+    );
+    hitBox.material = wireFrame;
+    hitBox.position = new Vector3(3.1, 0.3, -5);
   }
 
   // 创建车
@@ -56,10 +73,9 @@ export default class BasicScene {
       this.scene
     ).then(() => {
       const car = scene.getMeshByName("car")!;
+      this.carReady = true;
       car.rotation = new Vector3(Math.PI / 2, 0, -Math.PI / 2);
-      car.position.y = 0.16;
-      car.position.x = -3;
-      car.position.z = 8;
+      car.position = new Vector3(-3, 0.16, 8);
 
       const carAanimation = new Animation(
         "carAnimation",
@@ -102,16 +118,8 @@ export default class BasicScene {
       dist: number;
       turn: number;
     }[] = [];
-
-    track.push(new walk(86, 7));
-    track.push(new walk(-85, 14.8));
-    track.push(new walk(-93, 16.5));
-    track.push(new walk(48, 25.5));
-    track.push(new walk(-112, 30.5));
-    track.push(new walk(-72, 33.2));
-    track.push(new walk(42, 37.5));
-    track.push(new walk(-98, 45.2));
-    track.push(new walk(0, 47));
+    track.push(new walk(180, 2.5));
+    track.push(new walk(0, 5));
 
     // 导入人物，开启动画
     ImportMeshAsync(
@@ -120,16 +128,32 @@ export default class BasicScene {
     ).then((result) => {
       const dude = result.meshes[0];
       dude.scaling = new Vector3(0.008, 0.008, 0.008);
-      dude.position = new Vector3(-6, 0, 0);
-      this.scene.beginAnimation(result.skeletons[0], 0, 100, true);
-      dude.rotate(Axis.Y, Tools.ToRadians(-95), Space.LOCAL);
+
+      dude.position = new Vector3(1.5, 0, -6.9);
+      dude.rotate(Axis.Y, Tools.ToRadians(-90), Space.LOCAL);
+
       const startRotation = dude.rotationQuaternion!.clone();
+
+      this.scene.beginAnimation(result.skeletons[0], 0, 100, true, 1.0);
 
       let distance = 0;
       let step = 0.015;
       let p = 0;
+
+      // 获取碰撞盒子
+      const hitBox = scene.getMeshByName("hitBox")!;
       //每次渲染前调用
       scene.onBeforeRenderObservable.add(() => {
+        if (this.carReady) {
+          // 小车进入到碰撞盒子，人物停止移动
+          if (
+            scene.getMeshByName("car")!.intersectsMesh(hitBox) &&
+            !dude.getChildMeshes()[1].intersectsMesh(hitBox)
+          ) {
+            return;
+          }
+        }
+
         dude.movePOV(0, 0, step);
         distance += step;
 
@@ -139,7 +163,7 @@ export default class BasicScene {
           p %= track.length;
           if (p === 0) {
             distance = 0;
-            dude.position = new Vector3(-6, 0, 0);
+            dude.position = new Vector3(1.5, 0, -6.9);
             dude.rotationQuaternion = startRotation.clone();
           }
         }
