@@ -45,6 +45,7 @@ export default class BasicScene {
 
     this.CreateSkyBox(); //创建天空盒
     this.CreateSpriteTree(); //创建精灵树
+    this.CreateSpriteUFO(); //创建精灵UFO
     return scene;
   }
 
@@ -83,6 +84,25 @@ export default class BasicScene {
     skyBoxMaterial.specularColor = new Color3(0, 0, 0); //镜面反射颜色
 
     skyBox.material = skyBoxMaterial;
+  }
+  // 创建精灵UFO
+  CreateSpriteUFO() {
+    const spriteManageUFO = new SpriteManager(
+      "UFOManager",
+      "/images/ufo.png",
+      1,
+      {
+        width: 128,
+        height: 76,
+      },
+      this.scene
+    );
+    const ufo = new Sprite("ufo", spriteManageUFO);
+    ufo.position = new Vector3(0, 5, 0);
+    ufo.width = 2;
+    ufo.height = 1;
+    //播放动画
+    ufo.playAnimation(0, 500, true, 125); // 参数：开始帧，结束帧，是否循环，每秒帧数
   }
 
   // 创建精灵树
