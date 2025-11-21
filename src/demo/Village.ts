@@ -37,7 +37,7 @@ export default class BasicScene {
       Vector3.Zero()
     );
     camera.attachControl(canvas, true);
-    const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
+    new HemisphericLight("light", new Vector3(0, 1, 0), scene);
     // const ground = this.CreateGround();
 
     this.BuildDwelling();

@@ -12,7 +12,7 @@ import {
 } from "babylonjs";
 
 import "babylonjs-inspector";
-import Coordinate from "./Coordinate";
+import Coordinate from "@/components/Coordinate.ts";
 
 export default class BasicScene {
   engine: Engine;
@@ -62,9 +62,9 @@ export default class BasicScene {
       turn: number;
     }[] = [];
 
-    track.push(new slide(Math.PI / 2, 4)); //first side length 4
-    track.push(new slide((3 * Math.PI) / 4, 8)); //at finish of second side distance covered is 4 + 4
-    track.push(new slide((3 * Math.PI) / 4, 8 + 4 * Math.sqrt(2))); //all three sides cover the distance 4 + 4 + 4 * sqrt(2)
+    track.push(new slide(Math.PI / 2, 4)); //一开始距离为0，向右转90度，距离为4
+    track.push(new slide((3 * Math.PI) / 4, 8)); // 向右转135度，距离为8
+    track.push(new slide((3 * Math.PI) / 4, 8 + 4 * Math.sqrt(2))); // 向右转135度，距离为12
     let distance = 0;
     let step = 0.05;
     let p = 0;
@@ -83,8 +83,8 @@ export default class BasicScene {
         p %= track.length;
         if (p === 0) {
           distance = 0;
-          box.position = new Vector3(2, 0, 2); //reset to initial conditions
-          box.rotation = Vector3.Zero(); //prevents error accumulation
+          box.position = new Vector3(2, 0, 2); //回到起点
+          box.rotation = Vector3.Zero(); //重置旋转
         }
       }
     });

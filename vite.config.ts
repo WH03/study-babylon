@@ -3,7 +3,7 @@ import path from "path";
 export default defineConfig({
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"), // 设置 @ 指向 src 目录
+      "@": path.resolve("./src"), // 相对路径别名配置，使用 @ 代替 src
     },
   },
   server: {

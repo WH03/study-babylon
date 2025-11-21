@@ -13,9 +13,12 @@ import {
   Color3,
   SpriteManager,
   Sprite,
+  SpotLight,
 } from "babylonjs";
 
 import "babylonjs-loaders";
+import "babylonjs-inspector";
+
 import Particle from "@/components/Particles";
 export default class BasicScene {
   engine: Engine;
@@ -31,6 +34,7 @@ export default class BasicScene {
   //创建场景
   CreateScene(canvas: HTMLCanvasElement): Scene {
     const scene = new Scene(this.engine);
+    scene.debugLayer.show();
     const camera = new ArcRotateCamera(
       "camera",
       -Math.PI / 1.5,
@@ -46,6 +50,7 @@ export default class BasicScene {
     this.CreateSkyBox(); //创建天空盒
     this.CreateSpriteTree(); //创建精灵树
     this.CreateSpriteUFO(); //创建精灵UFO
+    this.CreateStreetLamp(); //创建路灯
 
     // 添加粒子系统喷泉
     const particleSystem = new Particle(scene);
@@ -55,7 +60,12 @@ export default class BasicScene {
 
   // 创建光源
   CreateLight() {
-    new HemisphericLight("light", new Vector3(0, 10, 0), this.scene);
+    const hemisphereLight = new HemisphericLight(
+      "light",
+      new Vector3(0, 10, 0),
+      this.scene
+    );
+    hemisphereLight.intensity = 0.1;
   }
 
   // 创建天空盒
@@ -212,5 +222,18 @@ export default class BasicScene {
     });
   }
 
-  
+  // 创建路灯
+  CreateStreetLamp() {
+    ImportMeshAsync("/models/lamp.babylon", this.scene).then(() => {
+      const lampLight = new SpotLight(
+        "spotLight",
+         Vector3.Zero(),
+        new Vector3(0, -1, 0),
+        Math.PI,
+        1,
+        this.scene
+      );
+      lampLight.diffuse = Color3.Yellow();
+    });
+  }
 }

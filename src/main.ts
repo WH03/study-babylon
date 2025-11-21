@@ -3,15 +3,18 @@ import "./css/style.css";
 // import BasicScene from "./demo/Village";
 // import BasicScene from "./CarAnimation";
 // import BasicScene from "./demo/VillageAnimation";
-// import BasicScene from "./demo/CarAnimation";
-// import BasicScene from "./Coordinate";
-// import BasicScene from "./MoveToPath"; //沿路径移动
+// import BasicScene from "./demo/CarAnimation";//汽车动画
+// import BasicScene from "./Coordinate";//坐标轴
+// import BasicScene from "./demo/MoveToPath"; //沿路径移动
 // import BasicScene from "./PeopleWalk"; //沿路径移动
 // import BasicScene from "./demo/IntersectsMesh"; //沿路径移动
 // import BasicScene from "./demo/GroundHill"; //村庄地面
 // import BasicScene from "./demo/VillageCarAnimation"; //沿路径移动
 // import BasicScene from "./demo/SkyBox"; //天空盒
-import BasicScene from "./demo/Sprite"; //精灵材质
+// import BasicScene from "@/demo/Sprite"; //精灵材质
+// import BasicScene from "./demo/Particles"; //粒子系统
+// import BasicScene from "./demo/StreetLight"; //创建路灯
+import BasicScene from "./demo/EntireVillage.ts"; //创建
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);
