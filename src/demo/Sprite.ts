@@ -13,9 +13,9 @@ import {
   Color3,
   SpriteManager,
   Sprite,
-} from "babylonjs";
+} from "@babylonjs/core";
 
-import "babylonjs-loaders";
+import "@babylonjs/loaders";
 import Particle from "@/components/Particles";
 export default class BasicScene {
   engine: Engine;

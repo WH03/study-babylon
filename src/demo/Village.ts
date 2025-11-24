@@ -11,9 +11,9 @@ import {
   Vector4,
   Mesh,
   ImportMeshAsync,
-} from "babylonjs";
+} from "@babylonjs/core";
 
-import "babylonjs-loaders";
+import "@babylonjs/loaders";
 
 export default class BasicScene {
   engine: Engine;

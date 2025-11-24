@@ -7,7 +7,7 @@ import {
   StandardMaterial,
   TransformNode,
   Vector3,
-} from "babylonjs";
+} from "@babylonjs/core";
 
 export default class Coordinate {
   private scene: Scene;

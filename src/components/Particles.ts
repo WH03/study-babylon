@@ -7,7 +7,7 @@ import {
   Texture,
   Color4,
   PointerEventTypes,
-} from "babylonjs";
+} from "@babylonjs/core";
 export default class Particle {
   private scene: Scene;
   constructor(scene: Scene) {

@@ -9,7 +9,7 @@ import {
   Texture,
   Vector4,
   Animation,
-} from "babylonjs";
+} from "@babylonjs/core";
 
 import earcut from "earcut";
 

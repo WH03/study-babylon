@@ -1,3 +1,4 @@
+// 新代码（正确）
 import {
   Engine,
   Scene,
@@ -14,10 +15,11 @@ import {
   SpriteManager,
   Sprite,
   SpotLight,
-} from "babylonjs";
+} from "@babylonjs/core";
+import "@babylonjs/loaders"; // 新版加载器（支持 glb/babylon 等格式）
+import "@babylonjs/inspector"; // 新版调试器
 
-import "babylonjs-loaders";
-import "babylonjs-inspector";
+import * as GUI from "@babylonjs/gui"; // GUI
 
 import Particle from "@/components/Particles";
 export default class BasicScene {
@@ -26,7 +28,7 @@ export default class BasicScene {
   constructor(canvas: HTMLCanvasElement) {
     this.engine = new Engine(canvas);
     this.scene = this.CreateScene(canvas);
-    this.CreateLight(); //创建光源
+
     this.engine.runRenderLoop(() => {
       this.scene.render();
     });
@@ -45,6 +47,8 @@ export default class BasicScene {
     //限制相机上下旋转角度
     camera.upperBetaLimit = Math.PI / 2.2;
     camera.attachControl(canvas, true);
+
+    const hemisphereLight = this.CreateLight(); //创建光源
     this.ImportMeshes(); //导入模型
 
     this.CreateSkyBox(); //创建天空盒
@@ -52,6 +56,7 @@ export default class BasicScene {
     this.CreateSpriteUFO(); //创建精灵UFO
     this.CreateStreetLamp(); //创建路灯
 
+    this.CreateGUI(hemisphereLight); //创建GUI
     // 添加粒子系统喷泉
     const particleSystem = new Particle(scene);
 
@@ -61,11 +66,13 @@ export default class BasicScene {
   // 创建光源
   CreateLight() {
     const hemisphereLight = new HemisphericLight(
-      "light",
-      new Vector3(0, 10, 0),
+      "hemisphereLight",
+      new Vector3(1, 10, 0),
       this.scene
     );
     hemisphereLight.intensity = 0.1;
+
+    return hemisphereLight;
   }
 
   // 创建天空盒
@@ -226,14 +233,72 @@ export default class BasicScene {
   CreateStreetLamp() {
     ImportMeshAsync("/models/lamp.babylon", this.scene).then(() => {
       const lampLight = new SpotLight(
-        "spotLight",
-         Vector3.Zero(),
+        "lampLight",
+        Vector3.Zero(),
         new Vector3(0, -1, 0),
-        Math.PI,
-        1,
+        0.8 * Math.PI,
+        0.01,
         this.scene
       );
       lampLight.diffuse = Color3.Yellow();
+      // 将点光源的父元素设置为灯泡
+      lampLight.parent = this.scene.getMeshByName("bulb");
+
+      const lamp = this.scene.getMeshByName("lamp")!;
+      lamp.position = new Vector3(2, 0, 2);
+      lamp.rotation = Vector3.Zero();
+      lamp.rotation.y = -Math.PI / 4;
+
+      let lamp1 = lamp.clone("lamp1", null)!;
+      lamp1.position.x = -8;
+      lamp1.position.z = 1.2;
+      lamp1.rotation.y = Math.PI / 2;
+
+      let lamp2 = lamp1.clone("lamp2", null)!;
+      lamp2.position.x = -2.7;
+      lamp2.position.z = 0.8;
+      lamp2.rotation.y = -Math.PI / 2;
+
+      let lamp3 = lamp.clone("lamp3", null)!;
+      lamp3.position.z = -8;
     });
+  }
+
+  //创建gui
+  CreateGUI(light: HemisphericLight) {
+    const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+
+    // 创建一个StackPanel
+    const panel = new GUI.StackPanel();
+    panel.width = "220px";
+    panel.top = "0";
+    panel.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT; //水平对齐方式
+    panel.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP; //垂直对齐方式
+    advancedTexture.addControl(panel);
+
+    // 创建一个文本
+    const header = new GUI.TextBlock();
+    header.text = "Night to Day";
+    header.color = "white";
+    header.height = "30px";
+    panel.addControl(header);
+
+    // 创建一个滑块
+    const slider = new GUI.Slider();
+    slider.minimum = 0; //最小值
+    slider.maximum = 1; //最大值
+    slider.value = 0.1; //初始值
+    slider.borderColor = "black"; //边框颜色
+    slider.color = "white"; //滑块颜色
+    slider.background = "black"; //背景颜色
+    slider.height = "20px"; //高度
+    slider.width = "200px"; //宽度
+
+    slider.onValueChangedObservable.add((value) => {
+      if (light) {
+        light.intensity = value;
+      }
+    });
+    panel.addControl(slider);
   }
 }

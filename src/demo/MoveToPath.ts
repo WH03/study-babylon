@@ -9,9 +9,9 @@ import {
   Mesh,
   Axis,
   Space,
-} from "babylonjs";
+} from "@babylonjs/core";
 
-import "babylonjs-inspector";
+import "@babylonjs/inspector";
 import Coordinate from "@/components/Coordinate.ts";
 
 export default class BasicScene {

@@ -11,9 +11,9 @@ import {
   Animation,
   CubeTexture,
   Color3,
-} from "babylonjs";
+} from "@babylonjs/core";
 
-import "babylonjs-loaders";
+import "@babylonjs/loaders";
 
 export default class BasicScene {
   engine: Engine;

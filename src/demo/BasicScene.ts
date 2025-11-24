@@ -6,7 +6,7 @@ import {
   HemisphericLight,
   MeshBuilder,
   ImportMeshAsync,
-} from "babylonjs";
+} from "@babylonjs/core";
 export default class BasicScene {
   engine: Engine;
   scene: Scene;

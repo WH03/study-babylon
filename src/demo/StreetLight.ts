@@ -9,9 +9,9 @@ import {
   Color3,
   Mesh,
   StandardMaterial,
-} from "babylonjs";
+} from "@babylonjs/core";
 
-import "babylonjs-inspector";
+import "@babylonjs/inspector";
 
 export default class BasicScene {
   engine: Engine;
