@@ -15,7 +15,14 @@ import {
   SpriteManager,
   Sprite,
   SpotLight,
+  ShadowGenerator,
+  DirectionalLight,
+  Axis,
+  Tools,
+  Space,
+  FollowCamera,
 } from "@babylonjs/core";
+
 import "@babylonjs/loaders"; // 新版加载器（支持 glb/babylon 等格式）
 import "@babylonjs/inspector"; // 新版调试器
 
@@ -37,27 +44,36 @@ export default class BasicScene {
   CreateScene(canvas: HTMLCanvasElement): Scene {
     const scene = new Scene(this.engine);
     scene.debugLayer.show();
-    const camera = new ArcRotateCamera(
-      "camera",
-      -Math.PI / 1.5,
-      Math.PI / 2.5,
-      15,
-      Vector3.Zero()
-    );
-    //限制相机上下旋转角度
-    camera.upperBetaLimit = Math.PI / 2.2;
-    camera.attachControl(canvas, true);
+    // const camera = new ArcRotateCamera(
+    //   "camera",
+    //   Math.PI / 2,
+    //   Math.PI / 2.5,
+    //   150,
+    //   new Vector3(0, 60, 0)
+    // );
+    // //限制相机上下旋转角度
+    // camera.upperBetaLimit = Math.PI / 2.2;
+    // camera.attachControl(canvas, true);
 
-    const hemisphereLight = this.CreateLight(); //创建光源
-    this.ImportMeshes(); //导入模型
+    const followCamera = new FollowCamera(
+      "floowCamera",
+      new Vector3(-6, 0, 0),
+      this.scene
+    ); //跟随相机
 
     this.CreateSkyBox(); //创建天空盒
+
+    const { hemisphereLight, directionalLight } = this.CreateLight(); //创建光源
+    const shadowGenerator = new ShadowGenerator(1024, directionalLight);
+
+    this.ImportMeshes(shadowGenerator, followCamera); //导入模型
+
     this.CreateSpriteTree(); //创建精灵树
     this.CreateSpriteUFO(); //创建精灵UFO
     this.CreateStreetLamp(); //创建路灯
 
     this.CreateGUI(hemisphereLight); //创建GUI
-    // 添加粒子系统喷泉
+    // 添加粒子系统喷泉;
     const particleSystem = new Particle(scene);
 
     return scene;
@@ -72,7 +88,13 @@ export default class BasicScene {
     );
     hemisphereLight.intensity = 0.1;
 
-    return hemisphereLight;
+    const directionalLight = new DirectionalLight(
+      "directionalLight",
+      new Vector3(0, -1, 1)
+    );
+    directionalLight.position = new Vector3(0, 50, -100); //光源位置
+    return { hemisphereLight, directionalLight };
+    // return { directionalLight };
   }
 
   // 创建天空盒
@@ -155,7 +177,11 @@ export default class BasicScene {
   }
 
   //导入模型
-  async ImportMeshes() {
+  async ImportMeshes(
+    shadowGenerator: ShadowGenerator,
+    // camera: ArcRotateCamera
+    camera: FollowCamera
+  ) {
     const groundMaterial = new StandardMaterial("groundMaterial");
     groundMaterial.diffuseTexture = new Texture(
       // "https://assets.babylonjs.com/environments/villagegreen.png"
@@ -163,11 +189,11 @@ export default class BasicScene {
     );
     groundMaterial.diffuseTexture.hasAlpha = true; //开启透明
 
-    const ground = MeshBuilder.CreateGround("ground", {
-      width: 24,
-      height: 24,
-    });
-    ground.material = groundMaterial;
+    // const ground = MeshBuilder.CreateGround("ground", {
+    //   width: 24,
+    //   height: 24,
+    // });
+    // ground.material = groundMaterial;
 
     const largeGroundMaterial = new StandardMaterial("largeGroundMaterial");
     largeGroundMaterial.diffuseTexture = new Texture(
@@ -191,7 +217,9 @@ export default class BasicScene {
     largeGround.position.y = -0.01;
 
     // 导入村庄模型
-    ImportMeshAsync("/models/valleyvillage.glb", this.scene);
+    await ImportMeshAsync("/models/valleyvillage.glb", this.scene);
+    const ground = this.scene.getMeshByName("ground")!;
+    ground.receiveShadows = true;
 
     // 导入车模型
     ImportMeshAsync("/models/car.glb", this.scene).then(() => {
@@ -226,6 +254,65 @@ export default class BasicScene {
       carAanimation.setKeys(carKeys);
       car.animations.push(carAanimation);
       this.scene.beginAnimation(car, 0, 200, true);
+    });
+
+    //导入机器人模型
+    let modelResult = await ImportMeshAsync("/models/Dude.babylon", this.scene);
+    const dude = modelResult.meshes[0];
+    dude.position = new Vector3(-6, 0, 0);
+    dude.scaling = new Vector3(0.008, 0.008, 0.008);
+    //添加阴影投射者
+    shadowGenerator.addShadowCaster(dude, true);
+
+    dude.rotate(Axis.Y, Tools.ToRadians(-95), Space.LOCAL);
+    const startRotation = dude.rotationQuaternion!.clone();
+
+    // camera.parent = dude;
+    camera.lockedTarget = dude; //设置相机跟随目标
+
+    // 动画
+    this.scene.beginAnimation(modelResult.skeletons[0], 0, 100, true, 1.0);
+
+    class walk {
+      turn: number;
+      dist: number;
+      constructor(turn: number, dist: number) {
+        this.turn = turn;
+        this.dist = dist;
+      }
+    }
+    const track: {
+      dist: number;
+      turn: number;
+    }[] = [];
+    track.push(new walk(86, 7));
+    track.push(new walk(-85, 14.8));
+    track.push(new walk(-93, 16.5));
+    track.push(new walk(48, 25.5));
+    track.push(new walk(-112, 30.5));
+    track.push(new walk(-72, 33.2));
+    track.push(new walk(42, 37.5));
+    track.push(new walk(-98, 45.2));
+    track.push(new walk(0, 47));
+
+    let distance = 0;
+    let step = 0.01;
+    let p = 0;
+
+    this.scene.onBeforeRenderObservable.add(() => {
+      dude.movePOV(0, 0, step);
+      distance += step;
+
+      if (distance > track[p].dist) {
+        dude.rotate(Axis.Y, Tools.ToRadians(track[p].turn), Space.LOCAL);
+        p += 1;
+        p %= track.length;
+        if (p === 0) {
+          distance = 0;
+          dude.position = new Vector3(-6, 0, 0);
+          dude.rotationQuaternion = startRotation.clone();
+        }
+      }
     });
   }
 

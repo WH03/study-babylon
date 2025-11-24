@@ -13,8 +13,7 @@ export default class BasicScene {
   constructor(canvas: HTMLCanvasElement) {
     this.engine = new Engine(canvas);
     this.scene = this.CreateScene(canvas);
-    this.CreateMesh();
-    this.importMeshes();
+
     this.engine.runRenderLoop(() => {
       this.scene.render();
     });
@@ -30,17 +29,27 @@ export default class BasicScene {
       Vector3.Zero()
     );
     camera.attachControl(canvas, true);
-    const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
+    this.CreateLigtht(); //创建光源
+
+    this.CreateMesh();
+    this.ImportMeshes();
     return scene;
   }
 
+  CreateLigtht() {
+    const light = new HemisphericLight(
+      "light",
+      new Vector3(0, 1, 0),
+      this.scene
+    );
+  }
   //创建物体
   CreateMesh(): void {
     const box = MeshBuilder.CreateBox("box", { size: 1 }, this.scene);
   }
 
   //导入模型
-  async importMeshes() {
+  async ImportMeshes() {
     const mesh = await ImportMeshAsync(
       "https://assets.babylonjs.com/meshes/both_houses_scene.babylon",
       this.scene
