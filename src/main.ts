@@ -16,7 +16,10 @@ import "./css/style.css";
 // import BasicScene from "./demo/Particles"; //粒子系统
 // import BasicScene from "./demo/StreetLight"; //创建路灯
 // import BasicScene from "./demo/EntireVillage.ts"; //村庄完整版
-import BasicScene from "./demo/Shadow.ts"; //阴影
+// import BasicScene from "./Basic/Shadow.ts"; //阴影
+
+// import BasicScene from "./Audio/Audio";
+import BasicScene from "./Audio/Capture";
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);
