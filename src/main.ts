@@ -19,7 +19,9 @@ import "./css/style.css";
 // import BasicScene from "./Basic/Shadow.ts"; //阴影
 
 // import BasicScene from "./Audio/Audio";
-import BasicScene from "./Audio/Capture";
+// import BasicScene from "./Audio/Capture";
+// import BasicScene from "./Audio/FromMicroPhone"; //从麦克风获取音频
+import BasicScene from "./Audio/SpatialSound"; //空间音频
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);

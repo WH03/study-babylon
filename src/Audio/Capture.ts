@@ -8,6 +8,9 @@ import {
   CreateSoundAsync,
   CreateAudioEngineAsync,
 } from "@babylonjs/core";
+
+import * as GUI from "@babylonjs/gui"; // GUI
+
 export default class BasicScene {
   engine: Engine;
   scene: Scene;
@@ -51,41 +54,73 @@ export default class BasicScene {
   }
   // 初始化音频
   async InitAudio() {
-    let volume = 0.1; //音量
-    let playbackRate = 0.5; //播放速度
+    let isPlaying = false;
+    const soundArr = [
+      [0.0, 3.0],
+      [5.1, 6.6],
+      [12.0, 1.6],
+      [14.0, 9.2],
+      [23.0, 7.9],
+      [31.0, 2.8],
+    ];
     const audioEngine = await CreateAudioEngineAsync();
     await audioEngine.unlockAsync();
-    const gunshot = await CreateSoundAsync("sound", "/sounds/gunshot.wav", {
-      playbackRate,
-      volume,
-      loop: false, // 不循环（单次音效）
-      autoplay: false, // 不自动播放（符合浏览器政策）
-    });
-    console.log("gunshot", gunshot);
-    // onEndedObservable 是音频实例的内置可观察对象，当声音播放完成（非循环、未暂停 / 停止）时，会自动触发所有绑定的回调。
-    gunshot.onEndedObservable.add(() => {
-      console.log("gunshot 结束");
-      if (volume < 1) {
-        volume += 0.5;
-        gunshot.setVolume(volume);
-      }
-      playbackRate += 0.5;
-      gunshot.playbackRate = playbackRate;
-      console.log("volume:", volume, "playbackRate:", playbackRate);
+    const sounds = await CreateSoundAsync("sound", "/sounds/6sounds.mp3");
+    // sounds.play();
+    sounds.onEndedObservable.add(() => {
+      isPlaying = false;
+      console.log("播放结束");
     });
 
-    window.addEventListener("mousedown", (event) => {
-      if (event.button === 0) {
-        // 0 表示鼠标左键
-        gunshot.play(); // 播放预加载的音频对象
-      }
-    });
+    // 创建UI
+    const advancedDynamicTexture =
+      GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+    const panel = new GUI.StackPanel();
+    panel.width = "220px";
+    panel.fontSize = "14px";
+    panel.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+    panel.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_CENTER;
 
-    window.addEventListener("keydown", (event) => {
-      if (event.key === " ") {
-        //左键
-        gunshot.play();
+    advancedDynamicTexture.addControl(panel);
+
+    // 创建按钮
+    const button = GUI.Button.CreateSimpleButton("button", "播放完整音频");
+    button.paddingTop = "10px";
+    button.width = "150px";
+    button.height = "40px";
+    button.color = "white";
+    button.background = "green";
+    button.onPointerClickObservable.add(() => {
+      if (!isPlaying) {
+        isPlaying = true;
+        sounds.play();
       }
     });
+    panel.addControl(button);
+
+    for (let i = 0; i < soundArr.length; i++) {
+      const button = GUI.Button.CreateSimpleButton(
+        `button${i}`,
+        `播放${i + 1}音频`
+      );
+      button.paddingTop = "10px";
+      button.width = "150px";
+      button.height = "40px";
+      button.color = "white";
+      button.background = "green";
+      button.onPointerClickObservable.add(() => {
+        if (!isPlaying) {
+          isPlaying = true;
+          sounds.play({
+            loop: false, //不循环
+            loopStart: soundArr[i][0], //循环开始时间;
+            loopEnd: soundArr[i][1], //循环结束时间
+            startOffset: soundArr[i][0], //开始播放的偏移量
+          });
+        }
+      });
+
+      panel.addControl(button);
+    }
   }
 }
