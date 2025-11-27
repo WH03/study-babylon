@@ -7,7 +7,6 @@ import {
   MeshBuilder,
   CreateSoundAsync,
   CreateAudioEngineAsync,
-  Sound,
 } from "@babylonjs/core";
 export default class BasicScene {
   engine: Engine;
