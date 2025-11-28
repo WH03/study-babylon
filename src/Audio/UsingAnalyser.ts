@@ -54,7 +54,7 @@ export default class BasicScene {
     let volume = 0.1; //音量
     const audioEngine = await CreateAudioEngineAsync();
     await audioEngine.unlockAsync();
-    const music = await CreateSoundAsync("sound", "/sounds/gunshot.wav", {
+    const music = await CreateSoundAsync("sound", "/sounds/bird.mp3", {
       volume,
       loop: true, // 不循环（单次音效）
       autoplay: true, // 不自动播放（符合浏览器政策）
