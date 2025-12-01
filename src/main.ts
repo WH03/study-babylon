@@ -24,7 +24,8 @@ import "./css/style.css";
 // import BasicScene from "./Audio/SpatialSound"; //空间音频
 // import BasicScene from "./Audio/AttachToMesh"; //空间音频
 // import BasicScene from "./Audio/SpatialDirectional"; //空间音频
-import BasicScene from "./Audio/UsingAnalyser"; //声音分析器
+// import BasicScene from "./Audio/UsingAnalyser"; //声音分析器
+import BasicScene from "./Animation/DesignAnimation"; //声音分析器
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);
