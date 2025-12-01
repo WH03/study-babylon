@@ -20,7 +20,7 @@ export default class BasicScene {
     this.animations = new Animations(this.scene); // 初始化一次
     // 创建坐标轴
     const coordinate = new Coordinate(this.scene);
-    const axis = coordinate.ShowAxis(15);
+    coordinate.ShowAxis(15);
     this.CreateMesh(this.scene);
 
     this.engine.runRenderLoop(() => {
