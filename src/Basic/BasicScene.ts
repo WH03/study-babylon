@@ -7,12 +7,18 @@ import {
   MeshBuilder,
   ImportMeshAsync,
 } from "@babylonjs/core";
+
+import Coordinate from "@/components/Coordinate";
+
 export default class BasicScene {
   engine: Engine;
   scene: Scene;
   constructor(canvas: HTMLCanvasElement) {
     this.engine = new Engine(canvas);
     this.scene = this.CreateScene(canvas);
+
+    const coordinate = new Coordinate(this.scene);
+    coordinate.ShowAxis(10);
 
     this.engine.runRenderLoop(() => {
       this.scene.render();
@@ -37,8 +43,8 @@ export default class BasicScene {
   }
 
   CreateLigtht() {
-    const light = new HemisphericLight(
-      "light",
+    const hemisphericLight = new HemisphericLight(
+      "hemisphericLight",
       new Vector3(0, 1, 0),
       this.scene
     );

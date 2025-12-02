@@ -7,7 +7,6 @@ import {
   MeshBuilder,
   CreateSoundAsync,
   CreateAudioEngineAsync,
-  CreateSoundBufferAsync,
   StandardMaterial,
   Color3,
   Texture,
@@ -54,7 +53,10 @@ export default class BasicScene {
     groundMaterial.diffuseColor = Color3.Yellow();
     groundMaterial.backFaceCulling = true; //背面剔除
 
-    const ground = MeshBuilder.CreateGround("ground", { width: 600, height: 600 });
+    const ground = MeshBuilder.CreateGround("ground", {
+      width: 600,
+      height: 600,
+    });
     ground.position.y = -0.5;
     ground.material = groundMaterial;
   }
