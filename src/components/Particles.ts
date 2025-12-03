@@ -44,7 +44,7 @@ export default class Particle {
     const particleSystem = new ParticleSystem("particles", 5000, this.scene);
     // 粒子纹理
     particleSystem.particleTexture = new Texture(
-      "/images/flare.png",
+      "/Particles/flare.png",
       this.scene
     );
     // 发射位置

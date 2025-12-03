@@ -185,7 +185,7 @@ export default class BasicScene {
     const groundMaterial = new StandardMaterial("groundMaterial");
     groundMaterial.diffuseTexture = new Texture(
       // "https://assets.babylonjs.com/environments/villagegreen.png"
-      "/images/villagegreen.png"
+      "/Material/villagegreen.png"
     );
     groundMaterial.diffuseTexture.hasAlpha = true; //开启透明
 
@@ -198,13 +198,13 @@ export default class BasicScene {
     const largeGroundMaterial = new StandardMaterial("largeGroundMaterial");
     largeGroundMaterial.diffuseTexture = new Texture(
       // "https://assets.babylonjs.com/environments/valleygrass.png"
-      "/images/valleygrass.png"
+      "/Material/valleygrass.png"
     );
     // 加载地面
     const largeGround = MeshBuilder.CreateGroundFromHeightMap(
       "largeGround",
       // "https://assets.babylonjs.com/environments/villageheightmap.png",
-      "/images/villageheightmap.png",
+      "/Material/villageheightmap.png",
       {
         width: 150,
         height: 150,
@@ -217,12 +217,12 @@ export default class BasicScene {
     largeGround.position.y = -0.01;
 
     // 导入村庄模型
-    await ImportMeshAsync("/models/valleyvillage.glb", this.scene);
+    await ImportMeshAsync("/Mesh/valleyvillage.glb", this.scene);
     const ground = this.scene.getMeshByName("ground")!;
     ground.receiveShadows = true;
 
     // 导入车模型
-    ImportMeshAsync("/models/car.glb", this.scene).then(() => {
+    ImportMeshAsync("/Mesh/car.glb", this.scene).then(() => {
       const car = this.scene.getMeshByName("car")!;
       car.rotation = new Vector3(Math.PI / 2, 0, -Math.PI / 2);
       car.position = new Vector3(-3, 0.16, 8);
@@ -257,7 +257,7 @@ export default class BasicScene {
     });
 
     //导入机器人模型
-    let modelResult = await ImportMeshAsync("/models/Dude.babylon", this.scene);
+    let modelResult = await ImportMeshAsync("/Mesh/Dude.babylon", this.scene);
     const dude = modelResult.meshes[0];
     dude.position = new Vector3(-6, 0, 0);
     dude.scaling = new Vector3(0.008, 0.008, 0.008);
