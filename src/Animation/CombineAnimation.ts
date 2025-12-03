@@ -99,16 +99,16 @@ export default class BasicScene {
 
     moveAnimation.setKeys(animationKeys);
     box.animations.push(moveAnimation);
-    // scene.beginDirectAnimation(
-    //   box,
-    //   [moveAnimation, rotationAnimation],
-    //   0,
-    //   frameRate * 2,
-    //   true
-    // );
+
     // 顺序操作
     const nextAnimation = () => {
-      scene.beginDirectAnimation(box, [moveAnimation,rotationAnimation], 0, 2 * frameRate, true);
+      scene.beginDirectAnimation(
+        box,
+        [moveAnimation, rotationAnimation],
+        0,
+        2 * frameRate,
+        true
+      );
     };
     scene.beginDirectAnimation(
       box,

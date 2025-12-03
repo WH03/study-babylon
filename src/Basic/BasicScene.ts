@@ -7,6 +7,7 @@ import {
   MeshBuilder,
   ImportMeshAsync,
 } from "@babylonjs/core";
+import "@babylonjs/loaders";
 
 import Coordinate from "@/components/Coordinate";
 
@@ -27,14 +28,21 @@ export default class BasicScene {
   //创建场景
   CreateScene(canvas: HTMLCanvasElement): Scene {
     const scene = new Scene(this.engine);
+    scene.useRightHandedSystem = true;
     const camera = new ArcRotateCamera(
       "camera",
-      -Math.PI / 2,
-      Math.PI / 2.5,
-      8,
+      Math.PI / 2,
+      Math.PI / 4,
+      15,
       Vector3.Zero()
     );
-    camera.attachControl(canvas, true);
+    camera.lowerRadiusLimit = 2; //相机最小距离
+    camera.upperRadiusLimit = 10; //相机最大距离
+    camera.wheelDeltaPercentage = 0.01; //鼠标滚轮缩放速度
+    // camera.attachControl(canvas, true);
+    scene.activeCamera = camera; //激活相机
+    scene.activeCamera.attachControl(canvas, true); //激活相机
+
     this.CreateLigtht(); //创建光源
 
     this.CreateMesh();
