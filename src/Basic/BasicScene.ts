@@ -38,7 +38,7 @@ export default class BasicScene {
     this.CreateLigtht(); //创建光源
 
     this.CreateMesh();
-    this.ImportMeshes();
+    // this.ImportMeshes();
     return scene;
   }
 
