@@ -54,7 +54,7 @@ export default class BasicScene {
 
     scene.activeCamera = camera; //激活相机
     scene.activeCamera.attachControl(canvas, true); //激活相机
-    this.CreateLigtht(); //创建光源
+    this.CreateLight(); //创建光源
     this.CreateMesh(); //创建物体
     this.ImportMoldes(scene, camera); //导入模型
     this.CreateUI(); //创建UI
@@ -62,7 +62,7 @@ export default class BasicScene {
     return scene;
   }
 
-  CreateLigtht() {
+  CreateLight() {
     const hemisphericLight = new HemisphericLight(
       "hemisphericLight",
       new Vector3(0, 1, 0)

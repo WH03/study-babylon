@@ -30,13 +30,13 @@ export default class BasicScene {
       Vector3.Zero()
     );
     camera.attachControl(canvas, true);
-    this.CreateLigtht(); //创建光源
+    this.CreateLight(); //创建光源
     this.CreateMesh(); //创建物体
     this.InitAudio(); //初始化音频
     return scene;
   }
 
-  CreateLigtht() {
+  CreateLight() {
     const light = new HemisphericLight(
       "light",
       new Vector3(0, 1, 0),

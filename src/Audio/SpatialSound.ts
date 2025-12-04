@@ -45,13 +45,13 @@ export default class BasicScene {
     // camera.applyGravity = true;
     // camera.ellipsoid = new Vector3(1, 1, 1);
 
-    this.CreateLigtht(); //创建光源
+    this.CreateLight(); //创建光源
     this.CreateMesh(); //创建物体
     this.InitAudio(); //初始化音频
     return scene;
   }
 
-  CreateLigtht() {
+  CreateLight() {
     const hemisphericLight = new HemisphericLight(
       "hemisphericLight",
       new Vector3(0, 1, 0),

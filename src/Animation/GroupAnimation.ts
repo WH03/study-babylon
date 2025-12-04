@@ -34,14 +34,14 @@ export default class BasicScene {
     const scene = new Scene(this.engine);
     const camera = new ArcRotateCamera("camera", 0, 0.8, 100, Vector3.Zero());
     camera.attachControl(canvas, true);
-    this.CreateLigtht(); //创建光源
+    this.CreateLight(); //创建光源
 
     this.CreateMesh(scene); //创建网格
 
     return scene;
   }
 
-  CreateLigtht() {
+  CreateLight() {
     const hemisphericLight = new HemisphericLight(
       "hemisphericLight",
       new Vector3(0, 1, 0),

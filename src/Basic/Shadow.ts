@@ -40,14 +40,14 @@ export default class BasicScene {
     camera.attachControl(canvas, true);
     this.CreateGround(); //创建地面
 
-    const directionalLight = this.CreateLigtht(); //创建光源
+    const directionalLight = this.CreateLight(); //创建光源
     const shadowGenerator = new ShadowGenerator(1024, directionalLight);
     this.ImportMeshes(shadowGenerator); //导入模型
     return scene;
   }
 
   // 创建光源
-  CreateLigtht(): DirectionalLight {
+  CreateLight(): DirectionalLight {
     const directionalLight = new DirectionalLight(
       "directionalLight",
       new Vector3(0, -1, 1)

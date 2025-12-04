@@ -29,7 +29,10 @@ import "./css/style.css";
 // import BasicScene from "./Animation/SequenceAnimation"; //序列动画
 // import BasicScene from "./Animation/GroupAnimation"; //分组动画
 // import BasicScene from "./Animation/CombineAnimation"; //组合动画
-import BasicScene from "./Animation/CharacterAnimation"; //组合动画
+// import BasicScene from "./Animation/CharacterAnimation"; //角色动画
+// import BasicScene from "./Animation/AdvanceAnimation"; //高级动画
+// import BasicScene from "./Animation/BlendingAnimation"; //混合动画
+import BasicScene from "./Animation/WeightAnimation"; //权重动画
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);

@@ -37,13 +37,13 @@ export default class BasicScene {
       Vector3.Zero() //位置
     );
     camera.attachControl(canvas, true);
-    this.CreateLigtht(); //创建光源
+    this.CreateLight(); //创建光源
 
     this.CreateMesh(scene);
     return scene;
   }
 
-  CreateLigtht() {
+  CreateLight() {
     const directionalLight = new DirectionalLight(
       "directionalLight",
       new Vector3(0, -1, 1)
