@@ -169,9 +169,6 @@ export default class BasicScene {
       idleAnim._slider.value = 1.0;
       walkAnim._slider.value = 0.0;
       runAnim._slider.value = 0.0;
-      // 同步动画
-      walkAnim.syncWith(null); //取消同步
-      idleAnim.syncWith(walkAnim); //将idleAnim同步到walkAnim
 
       this.animationObs = scene.onBeforeAnimationsObservable.add(() => {
         //监听动画开始
@@ -203,8 +200,6 @@ export default class BasicScene {
       walkAnim._slider.value = 1.0;
       runAnim._slider.value = 0.0;
 
-      walkAnim.syncWith(runAnim);
-
       const obs = scene.onBeforeAnimationsObservable.add(() => {
         walkAnim._slider.value -= 0.01; //每帧减少0.01
 
@@ -222,58 +217,5 @@ export default class BasicScene {
     uiPanel.addControl(button2); //添加到面板中
 
     advancedDynamicTexture.addControl(uiPanel);
-    // this.CreateUI(params);
-    // this.engine.hideLoadingUI(); //隐藏加载界面
   }
-
-  // 创建UI
-  // CreateUI(params: any[]): void {
-  //   //创建全屏UI
-  //   const advancedDynamicTexture =
-  //     AdvancedDynamicTexture.CreateFullscreenUI("UI");
-  //   const uiPanel = new StackPanel(); //创建面板
-  //   uiPanel.width = "220px";
-  //   uiPanel.fontSize = "14px";
-  //   uiPanel.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT; //水平对齐方式
-  //   uiPanel.verticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER; //垂直对齐方式
-  //   params.forEach((param) => {
-  //     const header = new TextBlock(); //创建文本块
-  //     header.text = param.name + ":" + param.anim.weight.toFixed(2); //文本内容
-  //     header.height = "40px";
-  //     header.color = "green";
-  //     header.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
-  //     header.paddingTop = "10px";
-  //     uiPanel.addControl(header); //添加到面板中
-
-  //     // 创建滑块
-  //     const slider = new Slider(); //创建滑块
-  //     slider.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT; //水平对齐方式
-  //     slider.minimum = 0; //最小值
-  //     slider.maximum = 1; //最大值
-  //     slider.color = "green"; //滑块颜色
-  //     slider.value = param.anim.weight; //滑块初始值
-  //     slider.height = "20px";
-  //     slider.width = "200px";
-  //     uiPanel.addControl(slider); //添加到面板中
-  //     slider.onValueChangedObservable.add((value) => {
-  //       param.anim.weight = value; //更新动画权重
-  //       header.text = param.name + ":" + param.anim.weight.toFixed(2); //更新文本内容
-  //     });
-  //     param.anim._slider = slider; //保存滑块引用
-  //   });
-
-  //   //创建按钮
-  //   const button = GUI.Button.CreateSimpleButton("button", "From idle to walk"); //创建按钮
-  //   button.paddingTop = "20px";
-  //   button.width = "200px";
-  //   button.height = "50px";
-  //   button.background = "green";
-  //   button.color = "white";
-  //   button.onPointerClickObservable.add(() => {
-  //     idleAnim._slider.value = 1.0;
-  //   });
-  //   uiPanel.addControl(button); //添加到面板中
-
-  //   advancedDynamicTexture.addControl(uiPanel);
-  // }
 }

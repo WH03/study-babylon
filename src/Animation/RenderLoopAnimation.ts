@@ -6,7 +6,7 @@ import {
   HemisphericLight,
   MeshBuilder,
   ImportMeshAsync,
-  Animation
+  Animation,
 } from "@babylonjs/core";
 import "@babylonjs/loaders";
 
@@ -46,7 +46,7 @@ export default class BasicScene {
 
     this.CreateLight(); //创建光源
 
-    this.CreateMesh();
+    this.CreateMesh(scene); //创建物体
     // this.ImportMeshes();
     return scene;
   }
@@ -59,8 +59,23 @@ export default class BasicScene {
     );
   }
   //创建物体
-  CreateMesh(): void {
+  CreateMesh(scene: Scene): void {
     const box = MeshBuilder.CreateBox("box", { size: 1 }, this.scene);
+
+    let direction = true; //true为正向，false为反向
+    scene.registerBeforeRender(() => {
+      if (box.position.x < 2 && direction) {
+        box.position.x += 0.05;
+      } else {
+        direction = false;
+      }
+
+      if (box.position.x > -2 && !direction) {
+        box.position.x -= 0.05;
+      } else {
+        direction = true;
+      }
+    });
   }
 
   //导入模型

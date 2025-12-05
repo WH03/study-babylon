@@ -32,7 +32,10 @@ import "./css/style.css";
 // import BasicScene from "./Animation/CharacterAnimation"; //角色动画
 // import BasicScene from "./Animation/AdvanceAnimation"; //高级动画
 // import BasicScene from "./Animation/BlendingAnimation"; //混合动画
-import BasicScene from "./Animation/WeightAnimation"; //权重动画
+// import BasicScene from "./Animation/WeightAnimation"; //权重动画
+// import BasicScene from "./Animation/AdditiveAnimation"; //附加动画
+// import BasicScene from "@/Animation/EasingAnimation"; //缓动动画
+import BasicScene from "@/Animation/RenderLoopAnimation"; //渲染循环动画
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);
