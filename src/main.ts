@@ -35,7 +35,16 @@ import "./css/style.css";
 // import BasicScene from "./Animation/WeightAnimation"; //权重动画
 // import BasicScene from "./Animation/AdditiveAnimation"; //附加动画
 // import BasicScene from "@/Animation/EasingAnimation"; //缓动动画
-import BasicScene from "@/Animation/RenderLoopAnimation"; //渲染循环动画
+// import BasicScene from "@/Animation/RenderLoopAnimation"; //渲染循环动画
+// import BasicScene from "@/GUI/GUI"; //GUI
+// import BasicScene from "@/GUI/FullscreenMode"; //按钮全屏模式
+// import BasicScene from "@/GUI/TextureMode"; //按钮贴图模式
+// import BasicScene from "@/GUI/ObservablesExample"; //鼠标交互
+// import BasicScene from "@/GUI/ObservablePointClick"; //点击交互
+// import BasicScene from "@/GUI/AlignmentsExample"; //布局
+// import BasicScene from "@/GUI/PositionAndSize"; //位置和尺寸
+// import BasicScene from "@/GUI/TrackableLabel"; //位置跟踪标签
+import BasicScene from "@/GUI/OverlapGroup"; //重叠组
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);
