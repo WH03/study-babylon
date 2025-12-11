@@ -12,7 +12,6 @@ import Coordinate from "@/components/Coordinate";
 import {
   AdvancedDynamicTexture,
   Button,
-  Control,
   Line,
 } from "@babylonjs/gui/2D";
 
