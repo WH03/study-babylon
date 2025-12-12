@@ -9,11 +9,7 @@ import {
 import "@babylonjs/loaders";
 
 import Coordinate from "@/components/Coordinate";
-import {
-  AdvancedDynamicTexture,
-  Button,
-  Line,
-} from "@babylonjs/gui/2D";
+import { AdvancedDynamicTexture, Button, Line } from "@babylonjs/gui/2D";
 
 export default class BasicScene {
   engine: Engine;

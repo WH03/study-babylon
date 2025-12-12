@@ -44,7 +44,13 @@ import "./css/style.css";
 // import BasicScene from "@/GUI/AlignmentsExample"; //布局
 // import BasicScene from "@/GUI/PositionAndSize"; //位置和尺寸
 // import BasicScene from "@/GUI/TrackableLabel"; //位置跟踪标签
-import BasicScene from "@/GUI/OverlapGroup"; //重叠组
+// import BasicScene from "@/GUI/OverlapGroup"; //重叠组
+// import BasicScene from "@/GUI/InputText"; //控制输入文本
+// import BasicScene from "@/GUI/Button"; //控制按钮
+// import BasicScene from "@/GUI/Checkbox"; //控制复选框
+// import BasicScene from "@/GUI/RadioButton"; //控制单选按钮
+// import BasicScene from "@/GUI/Slider"; //滑块
+import BasicScene from "@/GUI/ImageSlider"; //滑块
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);
