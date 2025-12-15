@@ -50,7 +50,14 @@ import "./css/style.css";
 // import BasicScene from "@/GUI/Checkbox"; //控制复选框
 // import BasicScene from "@/GUI/RadioButton"; //控制单选按钮
 // import BasicScene from "@/GUI/Slider"; //滑块
-import BasicScene from "@/GUI/ImageSlider"; //滑块
+// import BasicScene from "@/GUI/ImageSlider"; //滑块
+// import BasicScene from "@/GUI/Line"; //线
+// import BasicScene from "@/GUI/MultiLine"; //多行线
+// import BasicScene from "@/GUI/ImageNinePatch"; //图片九宫格切割
+// import BasicScene from "@/GUI/ImageSprite"; //图片精灵
+// import BasicScene from "@/GUI/SVGAsset"; //SVG资源
+// import BasicScene from "@/GUI/ColorPicker"; //颜色选择器
+import BasicScene from "@/GUI/DisplayGrid"; //显示网格
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);

@@ -15,7 +15,6 @@ import {
   AdvancedDynamicTexture,
   StackPanel,
   TextBlock,
-  Control,
   Slider,
   Grid,
   ImageBasedSlider,
@@ -97,14 +96,11 @@ export default class BasicScene {
     this.CreateSlider(grid, false, false, true, 0, 1);
     this.CreateSlider(grid, true, false, true, 1, 1);
 
-    this.CreateSlider(grid, false, false, true, 2, 0);
-    this.CreateSlider(grid, true, false, true, 3, 0);
+    this.CreateSlider(grid, false, true, false, 2, 0);
+    this.CreateSlider(grid, true, true, false, 3, 0);
 
-    this.CreateSlider(grid, false, false, true, 2, 1);
-    this.CreateSlider(grid, true, false, true, 3, 1);
-
-
-
+    this.CreateSlider(grid, false, false, false, 2, 1);
+    this.CreateSlider(grid, true, false, false, 3, 1);
 
     this.CreateImageSlider(grid, false, true, true, 0, 2);
     this.CreateImageSlider(grid, true, true, true, 1, 2);
@@ -151,10 +147,10 @@ export default class BasicScene {
     if (isVertical) {
       // 垂直
       slider.width = "20px";
-      slider.height = "80px";
+      slider.height = "100px";
     } else {
+      slider.width = "100px";
       slider.height = "20px";
-      slider.width = "200px";
     }
     slider.color = "red";
     slider.onValueChangedObservable.add((value) => {
@@ -204,23 +200,20 @@ export default class BasicScene {
     if (!isVertical) {
       slider.backgroundImage = new GUI.Image(
         "back",
-        "/textures/gui/backgroundImage.png"
+        "/GUI/backgroundImage.png"
       );
-      slider.valueBarImage = new GUI.Image(
-        "value",
-        "/textures/gui/valueImage.png"
-      );
+      slider.valueBarImage = new GUI.Image("value", "/GUI/valueImage.png");
     } else {
       slider.backgroundImage = new GUI.Image(
         "back",
-        "/textures/gui/backgroundImage-vertical.png"
+        "/GUI/backgroundImage-vertical.png"
       );
       slider.valueBarImage = new GUI.Image(
         "value",
-        "/textures/gui/valueImage-vertical.png"
+        "/GUI/valueImage-vertical.png"
       );
     }
-    slider.thumbImage = new GUI.Image("thumb", "/textures/gui/thumb.png");
+    slider.thumbImage = new GUI.Image("thumb", "/GUI/thumb.png");
 
     slider.onValueChangedObservable.add((value) => {
       header.text = `Y-rotation ${Math.round(Tools.ToDegrees(value))} deg`;
