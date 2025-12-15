@@ -9,7 +9,12 @@ import {
 import "@babylonjs/loaders";
 
 import Coordinate from "@/components/Coordinate";
-import { AdvancedDynamicTexture, DisplayGrid, Line } from "@babylonjs/gui/2D";
+import {
+  AdvancedDynamicTexture,
+  DisplayGrid,
+  InputText,
+  Line,
+} from "@babylonjs/gui/2D";
 
 export default class BasicScene {
   engine: Engine;
@@ -44,7 +49,7 @@ export default class BasicScene {
 
     this.CreateLight(); //创建光源
     this.CreateMeshes(); //创建物体
-    this.CreateGrid(); //创建网格
+    this.CreateKeyBoard(); //创建键盘
     return scene;
   }
 
@@ -66,16 +71,16 @@ export default class BasicScene {
     ground.position = new Vector3(0, -3, 0);
   }
   // 创建GUI
-  CreateGrid() {
+  CreateKeyBoard() {
     const advancedDynamicTexture =
       AdvancedDynamicTexture.CreateFullscreenUI("UI");
 
-    // 创建grid
-    const grid = new DisplayGrid();
-    grid.majorLineColor = "red"; // 主线颜色
-    grid.minorLineColor = "blue"; // 次线颜色
-    grid.majorLineFrequency = 10; // 主线频率
-    grid.rotation = Math.PI / 6;
-    advancedDynamicTexture.addControl(grid);
+    // 创建输入文本框
+    const inputText = new InputText("inputText", "请输入文字");
+    inputText.width = "50%";
+    inputText.height = "50px";
+    inputText.color = "white";
+    inputText.background = "green";
+    advancedDynamicTexture.addControl(inputText);
   }
 }
