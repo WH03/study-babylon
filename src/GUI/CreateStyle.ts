@@ -11,11 +11,11 @@ import "@babylonjs/loaders";
 import Coordinate from "@/components/Coordinate";
 import {
   AdvancedDynamicTexture,
-  Control,
-  DisplayGrid,
-  InputText,
-  Line,
-  VirtualKeyboard,
+  Button,
+  Grid,
+  Rectangle,
+  StackPanel,
+  TextBlock,
 } from "@babylonjs/gui/2D";
 
 export default class BasicScene {
@@ -51,7 +51,7 @@ export default class BasicScene {
 
     this.CreateLight(); //创建光源
     this.CreateMeshes(); //创建物体
-    this.CreateKeyBoard(); //创建键盘
+    this.CreateStyle(); //创建网格
     return scene;
   }
 
@@ -73,32 +73,57 @@ export default class BasicScene {
     ground.position = new Vector3(0, -3, 0);
   }
   // 创建GUI
-  CreateKeyBoard() {
+  CreateStyle() {
     const advancedDynamicTexture =
       AdvancedDynamicTexture.CreateFullscreenUI("UI");
 
-    // 创建输入文本框
-    const inputText = new InputText("inputText", "请输入文字");
-    inputText.width = "50%";
-    inputText.height = "50px";
-    inputText.color = "white";
-    inputText.background = "green";
-    advancedDynamicTexture.addControl(inputText);
+    const style = advancedDynamicTexture.createStyle();
+    style.fontSize = "24px";
+    style.fontStyle = "bold";
 
-    // 创建键盘按钮：使用默认的键盘布局
-    // const keyboard = VirtualKeyboard.CreateDefaultLayout();
-    // keyboard.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
-    // keyboard.connect(inputText);
-    // advancedDynamicTexture.addControl(keyboard);
+    // 创建堆叠面板
+    const stackPanel = new StackPanel();
+    advancedDynamicTexture.addControl(stackPanel); // 添加到UI
 
-    // 创建自定义键盘按钮
-    const keyboard = new VirtualKeyboard();
-    keyboard.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
-    keyboard.addKeysRow(["7", "8", "9"]);
-    keyboard.addKeysRow(["4", "5", "6"]);
-    keyboard.addKeysRow(["1", "2", "3"]);
-    keyboard.addKeysRow(["0", "."], [{ width: "80px" }, {}]);
-    keyboard.connect(inputText); //将键盘与输入文本框连接
-    advancedDynamicTexture.addControl(keyboard);
+    // 创建文本
+    const textBlock = new TextBlock();
+    textBlock.width = "200px";
+    textBlock.height = "50px";
+    textBlock.text = "Hello World! (no style) ";
+    textBlock.color = "skyblue";
+    textBlock.fontSize = "24px";
+    textBlock.fontStyle = "blod";
+    stackPanel.addControl(textBlock); // 添加到堆叠面板
+
+    // 创建文本
+    const textBlock2 = new TextBlock();
+    textBlock2.width = 1;
+    textBlock2.height = "50px";
+    textBlock2.text = "Hello World! (with style) ";
+    textBlock2.color = "skyblue";
+    textBlock2.style = style;
+    stackPanel.addControl(textBlock2); // 添加到堆叠面板
+
+    // 创建文本
+    const textBlock3 = new TextBlock();
+    textBlock3.width = 1;
+    textBlock3.height = "50px";
+    textBlock3.text = "测试啊(with style) ";
+    textBlock3.color = "skyblue";
+    textBlock3.style = style;
+    stackPanel.addControl(textBlock3); // 添加到堆叠面板
+
+    // 创建按钮
+    const button = Button.CreateSimpleButton("button", "Click me");
+    button.width = "200px";
+    button.height = "50px";
+    button.background = "green";
+    button.cornerRadius = 10;
+    button.onPointerClickObservable.add(() => {
+      style.fontSize = 32;
+      style.fontFamily = "Arial";
+      style.fontStyle = "italic";
+    });
+    stackPanel.addControl(button); // 添加到堆叠面板
   }
 }

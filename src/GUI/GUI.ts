@@ -103,7 +103,7 @@ export default class BasicScene {
     // 创建一个文本块来显示标题
     this.BuildStats(statsContainer);
   }
-  BuildStats(container) {
+  BuildStats(container: GUI.StackPanel) {
     // Clear
     container.clearControls();
     const mainHeight = window.innerHeight;
@@ -141,7 +141,7 @@ export default class BasicScene {
     subContainer.addControl(rect);
   }
 
-  TextTitle(text) {
+  TextTitle(text: string) {
     const title = new GUI.TextBlock();
     title.height = this.Vw(2.75) + "px";
     title.text = text;
@@ -150,7 +150,7 @@ export default class BasicScene {
     return title;
   }
   // Space with thin line
-  Space(size) {
+  Space(size: string | number) {
     const rect = new GUI.Rectangle();
     rect.height = size + "px";
     rect.thickness = 0;
@@ -164,14 +164,14 @@ export default class BasicScene {
   }
 
   // HTML5 Equivalent of vw
-  Vw(value) {
+  Vw(value: number) {
     const mainWidth = window.innerWidth;
     return (value / 100) * mainWidth;
   }
   // Compute the top position of this container
-  GetTop(container) {
+  GetTop(container: GUI.StackPanel) {
     let top = 0;
-    container.parent.children.forEach(function (c) {
+    container.parent!.children.forEach(function (c) {
       if (c != container) {
         top += c.heightInPixels;
       }

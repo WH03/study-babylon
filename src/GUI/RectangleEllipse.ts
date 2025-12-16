@@ -13,8 +13,12 @@ import {
   AdvancedDynamicTexture,
   Control,
   DisplayGrid,
+  Ellipse,
   InputText,
   Line,
+  Rectangle,
+  StackPanel,
+  TextBlock,
   VirtualKeyboard,
 } from "@babylonjs/gui/2D";
 
@@ -51,7 +55,7 @@ export default class BasicScene {
 
     this.CreateLight(); //创建光源
     this.CreateMeshes(); //创建物体
-    this.CreateKeyBoard(); //创建键盘
+    this.AdaptativeClip(); //创建键盘
     return scene;
   }
 
@@ -73,32 +77,36 @@ export default class BasicScene {
     ground.position = new Vector3(0, -3, 0);
   }
   // 创建GUI
-  CreateKeyBoard() {
+  AdaptativeClip() {
     const advancedDynamicTexture =
       AdvancedDynamicTexture.CreateFullscreenUI("UI");
 
-    // 创建输入文本框
-    const inputText = new InputText("inputText", "请输入文字");
-    inputText.width = "50%";
-    inputText.height = "50px";
-    inputText.color = "white";
-    inputText.background = "green";
-    advancedDynamicTexture.addControl(inputText);
+    //创建堆叠面板
+    const stackPanel = new StackPanel();
+    stackPanel.isVertical = false; //水平布局
+    advancedDynamicTexture.addControl(stackPanel);
 
-    // 创建键盘按钮：使用默认的键盘布局
-    // const keyboard = VirtualKeyboard.CreateDefaultLayout();
-    // keyboard.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
-    // keyboard.connect(inputText);
-    // advancedDynamicTexture.addControl(keyboard);
+    // 创建矩形
+    const rectangle = new Rectangle();
+    rectangle.width = "100px";
+    rectangle.height = "50px";
+    rectangle.color = "orange";
+    rectangle.background = "skyblue";
+    rectangle.cornerRadius = 10;
+    rectangle.thickness = 2;
+    stackPanel.addControl(rectangle);
 
-    // 创建自定义键盘按钮
-    const keyboard = new VirtualKeyboard();
-    keyboard.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
-    keyboard.addKeysRow(["7", "8", "9"]);
-    keyboard.addKeysRow(["4", "5", "6"]);
-    keyboard.addKeysRow(["1", "2", "3"]);
-    keyboard.addKeysRow(["0", "."], [{ width: "80px" }, {}]);
-    keyboard.connect(inputText); //将键盘与输入文本框连接
-    advancedDynamicTexture.addControl(keyboard);
+    const textBlock = new TextBlock();
+    textBlock.text = "矩形";
+    textBlock.color = "white";
+    rectangle.addControl(textBlock);
+    // 创建椭圆
+    const ellipse = new Ellipse();
+    ellipse.width = "100px";
+    ellipse.height = "100px";
+    ellipse.color = "orange";
+    ellipse.background = "skyblue";
+    ellipse.thickness = 2;
+    stackPanel.addControl(ellipse);
   }
 }

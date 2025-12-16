@@ -58,7 +58,14 @@ import "./css/style.css";
 // import BasicScene from "@/GUI/SVGAsset"; //SVG资源
 // import BasicScene from "@/GUI/ColorPicker"; //颜色选择器
 // import BasicScene from "@/GUI/DisplayGrid"; //显示网格
-import BasicScene from "@/GUI/VirtualKeyboard"; //虚拟键盘
+// import BasicScene from "@/GUI/VirtualKeyboard"; //虚拟键盘
+// import BasicScene from "@/GUI/AdaptativeClip"; //自适应裁剪
+// import BasicScene from "@/GUI/RectangleEllipse"; //矩形椭圆
+// import BasicScene from "@/GUI/Grid"; //网格
+// import BasicScene from "@/GUI/CreateStyle"; //样式
+// import BasicScene from "@/GUI/Helpers"; //辅助
+// import BasicScene from "@/GUI/ScrollView"; //滚动视图
+import BasicScene from "@/GUI/ScrollViewOptimization"; //滚动视图优化
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);

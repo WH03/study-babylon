@@ -12,10 +12,9 @@ import Coordinate from "@/components/Coordinate";
 import {
   AdvancedDynamicTexture,
   Control,
-  DisplayGrid,
-  InputText,
-  Line,
-  VirtualKeyboard,
+  Image,
+  Rectangle,
+  ScrollViewer,
 } from "@babylonjs/gui/2D";
 
 export default class BasicScene {
@@ -51,7 +50,7 @@ export default class BasicScene {
 
     this.CreateLight(); //创建光源
     this.CreateMeshes(); //创建物体
-    this.CreateKeyBoard(); //创建键盘
+    this.CreateScrollView(); //创建滚动视图
     return scene;
   }
 
@@ -63,7 +62,7 @@ export default class BasicScene {
     );
   }
   // 创建物体
-  CreateMeshes() {
+  async CreateMeshes() {
     const box = MeshBuilder.CreateBox("box", { size: 2 });
     const ground = MeshBuilder.CreateGround("ground", {
       width: 6,
@@ -73,32 +72,35 @@ export default class BasicScene {
     ground.position = new Vector3(0, -3, 0);
   }
   // 创建GUI
-  CreateKeyBoard() {
+  async CreateScrollView() {
     const advancedDynamicTexture =
       AdvancedDynamicTexture.CreateFullscreenUI("UI");
 
-    // 创建输入文本框
-    const inputText = new InputText("inputText", "请输入文字");
-    inputText.width = "50%";
-    inputText.height = "50px";
-    inputText.color = "white";
-    inputText.background = "green";
-    advancedDynamicTexture.addControl(inputText);
+    // 创建滚动视图
+    const scrollViewer = new ScrollViewer();
+    scrollViewer.width = 0.5;
+    scrollViewer.height = 0.5;
+    scrollViewer.background = "#ccc";
+    advancedDynamicTexture.addControl(scrollViewer);
 
-    // 创建键盘按钮：使用默认的键盘布局
-    // const keyboard = VirtualKeyboard.CreateDefaultLayout();
-    // keyboard.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
-    // keyboard.connect(inputText);
-    // advancedDynamicTexture.addControl(keyboard);
+    // 创建内容区域
+    const rectangle = new Rectangle();
+    rectangle.width = 2;
+    rectangle.height = 2;
+    rectangle.thickness = 5;
+    rectangle.color = "red";
+    rectangle.background = "yellow";
+    rectangle.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+    rectangle.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
+    scrollViewer.addControl(rectangle);
 
-    // 创建自定义键盘按钮
-    const keyboard = new VirtualKeyboard();
-    keyboard.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
-    keyboard.addKeysRow(["7", "8", "9"]);
-    keyboard.addKeysRow(["4", "5", "6"]);
-    keyboard.addKeysRow(["1", "2", "3"]);
-    keyboard.addKeysRow(["0", "."], [{ width: "80px" }, {}]);
-    keyboard.connect(inputText); //将键盘与输入文本框连接
-    advancedDynamicTexture.addControl(keyboard);
+    // scrollViewer.horizontalBar.value = 0.5; //水平滑块位置
+    // scrollViewer.verticalBar.value = 0.5; //垂直滑块位置
+
+    // 添加一个图片
+    const image = new Image("image", "/textures/Logo.png");
+    image.width = 0.4;
+    image.height = 0.4;
+    rectangle.addControl(image);
   }
 }

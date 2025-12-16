@@ -9,14 +9,7 @@ import {
 import "@babylonjs/loaders";
 
 import Coordinate from "@/components/Coordinate";
-import {
-  AdvancedDynamicTexture,
-  Control,
-  DisplayGrid,
-  InputText,
-  Line,
-  VirtualKeyboard,
-} from "@babylonjs/gui/2D";
+import { AdvancedDynamicTexture, Grid, Rectangle } from "@babylonjs/gui/2D";
 
 export default class BasicScene {
   engine: Engine;
@@ -51,7 +44,7 @@ export default class BasicScene {
 
     this.CreateLight(); //创建光源
     this.CreateMeshes(); //创建物体
-    this.CreateKeyBoard(); //创建键盘
+    this.CreateGrid(); //创建网格
     return scene;
   }
 
@@ -73,32 +66,42 @@ export default class BasicScene {
     ground.position = new Vector3(0, -3, 0);
   }
   // 创建GUI
-  CreateKeyBoard() {
+  CreateGrid() {
     const advancedDynamicTexture =
       AdvancedDynamicTexture.CreateFullscreenUI("UI");
 
-    // 创建输入文本框
-    const inputText = new InputText("inputText", "请输入文字");
-    inputText.width = "50%";
-    inputText.height = "50px";
-    inputText.color = "white";
-    inputText.background = "green";
-    advancedDynamicTexture.addControl(inputText);
+    // 创建网格
+    const grid = new Grid();
+    grid.background = "black";
+    grid.width = 0.8;
+    advancedDynamicTexture.addControl(grid);
 
-    // 创建键盘按钮：使用默认的键盘布局
-    // const keyboard = VirtualKeyboard.CreateDefaultLayout();
-    // keyboard.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
-    // keyboard.connect(inputText);
-    // advancedDynamicTexture.addControl(keyboard);
+    grid.addColumnDefinition(100, true); // 宽度、是否像素比
+    grid.addColumnDefinition(0.5);
+    grid.addColumnDefinition(0.5);
 
-    // 创建自定义键盘按钮
-    const keyboard = new VirtualKeyboard();
-    keyboard.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
-    keyboard.addKeysRow(["7", "8", "9"]);
-    keyboard.addKeysRow(["4", "5", "6"]);
-    keyboard.addKeysRow(["1", "2", "3"]);
-    keyboard.addKeysRow(["0", "."], [{ width: "80px" }, {}]);
-    keyboard.connect(inputText); //将键盘与输入文本框连接
-    advancedDynamicTexture.addControl(keyboard);
+    grid.addColumnDefinition(100, true);
+    grid.addRowDefinition(0.5);
+    grid.addRowDefinition(0.5);
+
+    let rectangle = new Rectangle();
+    rectangle.background = "red";
+    rectangle.thickness = 1;
+    grid.addControl(rectangle, 0, 1); // 添加矩形到网格
+
+    rectangle = new Rectangle();
+    rectangle.background = "green";
+    rectangle.thickness = 1;
+    grid.addControl(rectangle, 0, 2); // 添加矩形到网格, 第1列第2行
+
+    rectangle = new Rectangle();
+    rectangle.background = "blue";
+    rectangle.thickness = 1;
+    grid.addControl(rectangle, 1, 1); // 添加矩形到网格， 第1列第1行
+
+    rectangle = new Rectangle();
+    rectangle.background = "yellow";
+    rectangle.thickness = 1;
+    grid.addControl(rectangle, 1, 2); // 添加矩形到网格， 第1列第2行
   }
 }

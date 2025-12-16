@@ -4,9 +4,7 @@ import {
   ArcRotateCamera,
   Vector3,
   HemisphericLight,
-  MeshBuilder,
   ImportMeshAsync,
-  Mesh,
   AbstractMesh,
 } from "@babylonjs/core";
 import "@babylonjs/loaders";
@@ -16,7 +14,6 @@ import {
   AdvancedDynamicTexture,
   Checkbox,
   Control,
-  InputText,
   StackPanel,
   TextBlock,
 } from "@babylonjs/gui/2D";
@@ -46,15 +43,26 @@ export default class BasicScene {
       30,
       Vector3.Zero()
     );
+    camera.layerMask = 1;
     camera.lowerRadiusLimit = 2; //相机最小距离
     camera.upperRadiusLimit = 30; //相机最大距离
     camera.wheelDeltaPercentage = 0.01; //鼠标滚轮缩放速度
-    scene.activeCamera = camera; //激活相机
-    scene.activeCamera.attachControl(canvas, true); //激活相机
+
+    const camera2 = new ArcRotateCamera(
+      "camera",
+      Math.PI / 2,
+      Math.PI / 4,
+      15,
+      Vector3.Zero()
+    );
+    camera2.layerMask = 2;
+
+    scene.activeCameras = [camera]; //激活相机
+    scene.activeCamera!.attachControl(canvas, true); //激活相机
 
     this.CreateLight(); //创建光源
     this.CreateMeshes(camera); //创建物体
-
+    this.CreateGUI(scene, camera, camera2); //创建GUI
     return scene;
   }
 
@@ -67,14 +75,12 @@ export default class BasicScene {
   }
   // 创建物体
   async CreateMeshes(camera: ArcRotateCamera) {
-    let models = await ImportMeshAsync("/Meshes/skull.babylon", this.scene);
-    let skull = models.meshes[0];
-    skull.scaling = new Vector3(0.1, 0.1, 0.1);
-    camera.target = skull.position; //设置相机目标
-    this.CreateGUI(skull); //创建GUI
+    let models = await ImportMeshAsync("/Meshes/Ducky_2.glb", this.scene);
+    let duky = models.meshes[1]; //获取模型
+    duky.layerMask = 1;
   }
   // 创建GUI
-  async CreateGUI(skull: AbstractMesh) {
+  CreateGUI(scene: Scene, camera: ArcRotateCamera, camera2: ArcRotateCamera) {
     // 创建高级动态纹理
     const advancedDynamicTexture = AdvancedDynamicTexture.CreateFullscreenUI(
       "advancedDynamicTexture"
@@ -83,8 +89,8 @@ export default class BasicScene {
     const panel = new StackPanel();
     advancedDynamicTexture.addControl(panel);
 
-    panel.width = "200px";
-    panel.isVertical = false; //设置面板为垂直布局
+    panel.width = "300px";
+    panel.isVertical = true; //设置面板为垂直布局
     panel.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT;
     panel.verticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER;
 
@@ -95,19 +101,30 @@ export default class BasicScene {
     checkbox.isChecked = true;
     checkbox.color = "green";
     checkbox.onIsCheckedChangedObservable.add((value) => {
-      if (skull) {
-        skull.useVertexColors = value;
+      if (value) {
+        // 让相机1和相机2交替激活
+        scene.activeCameras = [camera]; // 设置激活的相机1
+      } else {
+        scene.activeCameras = [camera2]; // 设置激活的相机2
       }
     });
     panel.addControl(checkbox);
 
-    // 创建文本
-    const text = new TextBlock();
-    text.text = "复选框";
-    text.color = "white";
-    text.height = "30px";
-    text.width = "80px";
-    text.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;
-    panel.addControl(text);
+    // 创建标题
+    const header = Checkbox.AddHeader(
+      checkbox,
+      "测试layerMask使用,相机1和相机2交替激活",
+      "300px",
+      {
+        isHorizontal: true,
+        controlFirst: true,
+      }
+    );
+    header.width = "300px";
+    header.height = "20px";
+    header.color = "skyblue";
+    header.fontSize = 14;
+    header.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+    panel.addControl(header);
   }
 }

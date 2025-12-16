@@ -11,11 +11,8 @@ import "@babylonjs/loaders";
 import Coordinate from "@/components/Coordinate";
 import {
   AdvancedDynamicTexture,
-  Control,
-  DisplayGrid,
-  InputText,
-  Line,
-  VirtualKeyboard,
+  Rectangle,
+  TextBlock,
 } from "@babylonjs/gui/2D";
 
 export default class BasicScene {
@@ -51,7 +48,7 @@ export default class BasicScene {
 
     this.CreateLight(); //创建光源
     this.CreateMeshes(); //创建物体
-    this.CreateKeyBoard(); //创建键盘
+    this.AdaptativeClip(); //创建键盘
     return scene;
   }
 
@@ -73,32 +70,30 @@ export default class BasicScene {
     ground.position = new Vector3(0, -3, 0);
   }
   // 创建GUI
-  CreateKeyBoard() {
+  AdaptativeClip() {
     const advancedDynamicTexture =
       AdvancedDynamicTexture.CreateFullscreenUI("UI");
 
-    // 创建输入文本框
-    const inputText = new InputText("inputText", "请输入文字");
-    inputText.width = "50%";
-    inputText.height = "50px";
-    inputText.color = "white";
-    inputText.background = "green";
-    advancedDynamicTexture.addControl(inputText);
+    // 创建矩形
+    const rectangle = new Rectangle();
+    rectangle.width = "200px";
+    rectangle.height = "50px";
+    rectangle.color = "orange";
+    rectangle.background = "skyblue";
+    rectangle.cornerRadius = 10;
+    rectangle.thickness = 6;
+    // rectangle.adaptWidthToChildren = true; //自适应宽度：和子控件宽度一致
+    rectangle.isPointerBlocker = true; // 阻止点击穿透
+    rectangle.clipChildren = false; // 子控件超出范围时裁剪
+    advancedDynamicTexture.addControl(rectangle);
 
-    // 创建键盘按钮：使用默认的键盘布局
-    // const keyboard = VirtualKeyboard.CreateDefaultLayout();
-    // keyboard.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
-    // keyboard.connect(inputText);
-    // advancedDynamicTexture.addControl(keyboard);
-
-    // 创建自定义键盘按钮
-    const keyboard = new VirtualKeyboard();
-    keyboard.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
-    keyboard.addKeysRow(["7", "8", "9"]);
-    keyboard.addKeysRow(["4", "5", "6"]);
-    keyboard.addKeysRow(["1", "2", "3"]);
-    keyboard.addKeysRow(["0", "."], [{ width: "80px" }, {}]);
-    keyboard.connect(inputText); //将键盘与输入文本框连接
-    advancedDynamicTexture.addControl(keyboard);
+    // 创建文本
+    const textBlock = new TextBlock();
+    textBlock.text = "Hello World";
+    textBlock.color = "white";
+    textBlock.width = "50px";
+    textBlock.fontSize = 24;
+    textBlock.left = "-60px";
+    rectangle.addControl(textBlock);
   }
 }
