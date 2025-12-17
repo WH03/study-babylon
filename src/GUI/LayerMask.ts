@@ -5,7 +5,6 @@ import {
   Vector3,
   HemisphericLight,
   ImportMeshAsync,
-  AbstractMesh,
 } from "@babylonjs/core";
 import "@babylonjs/loaders";
 
@@ -15,7 +14,6 @@ import {
   Checkbox,
   Control,
   StackPanel,
-  TextBlock,
 } from "@babylonjs/gui/2D";
 
 export default class BasicScene {
@@ -26,7 +24,7 @@ export default class BasicScene {
     this.scene = this.CreateScene(canvas);
 
     const coordinate = new Coordinate(this.scene);
-    // coordinate.ShowAxis(10);
+    coordinate.ShowAxis(10);
 
     this.engine.runRenderLoop(() => {
       this.scene.render();
@@ -61,7 +59,7 @@ export default class BasicScene {
     scene.activeCamera!.attachControl(canvas, true); //激活相机
 
     this.CreateLight(); //创建光源
-    this.CreateMeshes(camera); //创建物体
+    this.CreateMeshes(); //创建物体
     this.CreateGUI(scene, camera, camera2); //创建GUI
     return scene;
   }
@@ -74,7 +72,7 @@ export default class BasicScene {
     );
   }
   // 创建物体
-  async CreateMeshes(camera: ArcRotateCamera) {
+  async CreateMeshes() {
     let models = await ImportMeshAsync("/Meshes/Ducky_2.glb", this.scene);
     let duky = models.meshes[1]; //获取模型
     duky.layerMask = 1;

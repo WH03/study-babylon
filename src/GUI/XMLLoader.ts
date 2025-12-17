@@ -9,13 +9,7 @@ import {
 import "@babylonjs/loaders";
 
 import Coordinate from "@/components/Coordinate";
-import {
-  AdvancedDynamicTexture,
-  Ellipse,
-  Rectangle,
-  StackPanel,
-  TextBlock,
-} from "@babylonjs/gui/2D";
+import { AdvancedDynamicTexture, Line, XmlLoader } from "@babylonjs/gui/2D";
 
 export default class BasicScene {
   engine: Engine;
@@ -50,7 +44,7 @@ export default class BasicScene {
 
     this.CreateLight(); //创建光源
     this.CreateMeshes(); //创建物体
-    this.AdaptativeClip(); //创建键盘
+    this.LoadXML(); //创建线
     return scene;
   }
 
@@ -62,7 +56,7 @@ export default class BasicScene {
     );
   }
   // 创建物体
-  CreateMeshes() {
+  async CreateMeshes() {
     const box = MeshBuilder.CreateBox("box", { size: 2 });
     const ground = MeshBuilder.CreateGround("ground", {
       width: 6,
@@ -72,36 +66,15 @@ export default class BasicScene {
     ground.position = new Vector3(0, -3, 0);
   }
   // 创建GUI
-  AdaptativeClip() {
+  async LoadXML() {
     const advancedDynamicTexture =
       AdvancedDynamicTexture.CreateFullscreenUI("UI");
 
-    //创建堆叠面板
-    const stackPanel = new StackPanel();
-    stackPanel.isVertical = false; //水平布局
-    advancedDynamicTexture.addControl(stackPanel);
-
-    // 创建矩形
-    const rectangle = new Rectangle();
-    rectangle.width = "100px";
-    rectangle.height = "50px";
-    rectangle.color = "orange";
-    rectangle.background = "skyblue";
-    rectangle.cornerRadius = 10;
-    rectangle.thickness = 2;
-    stackPanel.addControl(rectangle);
-
-    const textBlock = new TextBlock();
-    textBlock.text = "矩形";
-    textBlock.color = "white";
-    rectangle.addControl(textBlock);
-    // 创建椭圆
-    const ellipse = new Ellipse();
-    ellipse.width = "100px";
-    ellipse.height = "100px";
-    ellipse.color = "orange";
-    ellipse.background = "skyblue";
-    ellipse.thickness = 2;
-    stackPanel.addControl(ellipse);
+    const xmlLoader = new XmlLoader();
+    xmlLoader.loadLayout("/GUI/basic.xml", advancedDynamicTexture, () => {
+      xmlLoader.getNodeById("imageButton").onPointerClickObservable.add(() => {
+        alert("点击了按钮");
+      });
+    });
   }
 }

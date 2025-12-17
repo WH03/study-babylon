@@ -65,7 +65,10 @@ import "./css/style.css";
 // import BasicScene from "@/GUI/CreateStyle"; //样式
 // import BasicScene from "@/GUI/Helpers"; //辅助
 // import BasicScene from "@/GUI/ScrollView"; //滚动视图
-import BasicScene from "@/GUI/ScrollViewOptimization"; //滚动视图优化
+// import BasicScene from "@/GUI/ScrollViewOptimization"; //滚动视图性能优化
+// import BasicScene from "@/GUI/XMLLoader"; //XML加载器
+import BasicScene from "@/GUI/Selector"; //XML加载器
+
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);
