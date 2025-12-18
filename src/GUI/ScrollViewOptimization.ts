@@ -15,8 +15,6 @@ import {
   Checkbox,
   Container,
   Control,
-  Image,
-  Rectangle,
   ScrollViewer,
   TextBlock,
 } from "@babylonjs/gui/2D";

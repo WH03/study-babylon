@@ -67,8 +67,13 @@ import "./css/style.css";
 // import BasicScene from "@/GUI/ScrollView"; //滚动视图
 // import BasicScene from "@/GUI/ScrollViewOptimization"; //滚动视图性能优化
 // import BasicScene from "@/GUI/XMLLoader"; //XML加载器
-import BasicScene from "@/GUI/Selector"; //XML加载器
-
+// import BasicScene from "@/GUI/Selector"; //选择器
+// import BasicScene from "@/GUI/StereoStackPanel"; //3d面板
+// import BasicScene from "@/GUI/StereoVolumePanel"; //以几何体为背景的3d面板
+// import BasicScene from "@/GUI/StereoButton"; //3d按钮
+// import BasicScene from "@/GUI/MeshButton"; //网格按钮
+// import BasicScene from "@/GUI/HolographicButton"; //全息按钮
+import BasicScene from "@/GUI/HolographicSlate"; //全息板
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);

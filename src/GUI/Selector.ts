@@ -93,6 +93,12 @@ export default class BasicScene {
     selectorBox.left = "10px";
     selectorBox.top = "-10px";
     selectorBox.color = "cyan";
+    selectorBox.background = "#FFFF99";
+    selectorBox.color = "blue";
+    selectorBox.barColor = "red"; // 设置分割线颜色
+    selectorBox.headerColor = "blue"; // 设置标题栏颜色
+    selectorBox.buttonColor = "orange"; // 设置按钮颜色
+    selectorBox.buttonBackground = "gray"; // 设置按钮背景颜色
     advancedDynamicTexture.addControl(selectorBox);
 
     // 添加选项：大小缩放
@@ -114,7 +120,6 @@ export default class BasicScene {
     };
     // 添加选项：改变颜色
     const setColor = function (num: number) {
-      console.log("num: ", num);
       if (num === 0) {
         boxMaterial.emissiveColor = Color3.Red();
       } else if (num === 1) {
@@ -132,16 +137,19 @@ export default class BasicScene {
     selectorBox.addGroup(colorGroup);
 
     // 旋转
-    const toRotate = function (rotate: number) {
-      box.rotation = new Vector3(0, rotate, 0);
+    const toRotateY = (rotate: number) => {
+      box.rotation.y = rotate;
+    };
+    const toRotateX = (rotate: number): void => {
+      box.rotation.x = rotate;
     };
     const displayValue = function (value: number) {
-      return Math.round(Tools.ToDegrees(value));
+      return Math.round(Tools.ToDegrees(value)) | 0;
     };
     const rotateGroup = new SliderGroup("rotateGroup");
     rotateGroup.addSlider(
-      "旋转",
-      toRotate,
+      "绕y轴旋转",
+      toRotateY,
       "degs",
       0,
       Math.PI * 2,
@@ -149,5 +157,23 @@ export default class BasicScene {
       displayValue
     );
     selectorBox.addGroup(rotateGroup);
+
+    // 添加选择器到场景中
+    selectorBox.addToGroupSlider(
+      2, // 分组索引
+      "绕x轴旋转", // 标签
+      toRotateX as () => void, // 回调（类型断言以匹配 API 签名）
+      "degs", // 单位
+      0, // 最小值
+      Math.PI * 2, // 最大值
+      Math.PI, // 默认值
+      displayValue // 显示格式化函数（返回string）
+    );
+
+    // 更改后的标题名
+    selectorBox.setHeaderName("更改后的标题名", 0);
+    selectorBox.relabel("绿色",1,1);
+
+    // selectorBox.removeFromGroupSelector(2, 0); //移除选项：第几组，第几项
   }
 }
