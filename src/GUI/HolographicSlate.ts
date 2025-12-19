@@ -83,9 +83,12 @@ export default class BasicScene {
 
     // 创建全息板
     const holographicSlate = new HolographicSlate("holographicSlate");
+    manager.addControl(holographicSlate);
+
     holographicSlate.dimensions = new Vector2(10, 8);
+
     // 修复2：最小尺寸略小于实际尺寸（避免缩放时过小）
-    holographicSlate.minDimensions = new Vector2(5, 4);
+    // holographicSlate.minDimensions = new Vector2(5, 4);
     holographicSlate.titleBarHeight = 0.5;
     holographicSlate.title = "这是标题";
     holographicSlate.scaling = new Vector3(0.8, 0.8, 0.8);
@@ -93,8 +96,8 @@ export default class BasicScene {
     slateImage.stretch = Image.STRETCH_UNIFORM; // 等比拉伸填充控件
     holographicSlate.content = slateImage; // 设置内容
     holographicSlate.position = new Vector3(0, 30, 0);
+    
 
-    manager.addControl(holographicSlate);
 
     // 创建按钮
   }

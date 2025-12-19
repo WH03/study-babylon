@@ -36,11 +36,11 @@ export default class BasicScene {
       "camera",
       Math.PI / 2,
       Math.PI / 4,
-      50,
+      30,
       Vector3.Zero()
     );
     camera.lowerRadiusLimit = 2; //相机最小距离
-    camera.upperRadiusLimit = 100; //相机最大距离
+    camera.upperRadiusLimit = 30; //相机最大距离
     camera.wheelDeltaPercentage = 0.01; //鼠标滚轮缩放速度
     scene.activeCamera = camera; //激活相机
     scene.activeCamera.attachControl(canvas, true); //激活相机
@@ -68,23 +68,22 @@ export default class BasicScene {
   CreateNearMenu() {
     // 创建 3d gui
     const manager = new GUI3DManager();
-    // manager.useRealisticScaling = true; // 使用真实比例
     manager.useRealisticScaling = false; // 使用真实比例
-
     const nearMenu = new NearMenu("nearMenu");
-    nearMenu.position = new Vector3(0, 0, -1); // X=0（居中）, Y=1（高于地面）, Z=5（沿相机朝向）
-    nearMenu.rows = 2; // 5个按钮垂直排列
+    nearMenu.rows = 3;
     manager.addControl(nearMenu);
+    nearMenu.isPinned = true; // 菜单固定在屏幕上
+    nearMenu.position.y = 2;
+
     // 创建按钮
     for (let i = 0; i < 5; i++) {
-      let btn = this.CreateMenu(i); // 创建菜单
+      let btn = this.CreateButton(i); // 创建菜单
       nearMenu.addButton(btn);
     }
   }
 
-  CreateMenu(index: number) {
+  CreateButton(index: number) {
     const button = new TouchHolographicButton(`button-${index}`);
-    button.scaling = new Vector3(0.5, 0.5, 0.5);
     button.imageUrl = "/GUI/down.png"; // 确保图片路径正确，否则用文字测试
     button.text = `按钮${index}`;
     return button;

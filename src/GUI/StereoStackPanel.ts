@@ -10,7 +10,7 @@ import "@babylonjs/loaders";
 
 import Coordinate from "@/components/Coordinate";
 import { TextBlock } from "@babylonjs/gui/2D";
-import { Button3D, GUI3DManager, StackPanel3D } from "@babylonjs/gui";
+import { Button3D, GUI3DManager, Slider3D, StackPanel3D } from "@babylonjs/gui";
 
 export default class BasicScene {
   engine: Engine;
@@ -78,6 +78,13 @@ export default class BasicScene {
     this.AddButton(panel3d);
     this.AddButton(panel3d);
     this.AddButton(panel3d);
+
+    //创建滑块
+    const slider = new Slider3D("slider", true);
+    panel3d.addControl(slider);
+    slider.maximum = 2 * Math.PI;
+    slider.scaling = new Vector3(2, 1, -1);
+    slider.position = new Vector3(0, 2, 0);
   }
 
   AddButton(panel3d: StackPanel3D) {
