@@ -73,7 +73,8 @@ import "./css/style.css";
 // import BasicScene from "@/GUI/StereoButton"; //3d按钮
 // import BasicScene from "@/GUI/MeshButton"; //网格按钮
 // import BasicScene from "@/GUI/HolographicButton"; //全息按钮
-import BasicScene from "@/GUI/HolographicSlate"; //全息板
+// import BasicScene from "@/GUI/HolographicSlate"; //全息板
+import BasicScene from "@/GUI/NearMenu"; //菜单
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);

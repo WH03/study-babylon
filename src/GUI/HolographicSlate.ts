@@ -5,11 +5,12 @@ import {
   Vector3,
   HemisphericLight,
   MeshBuilder,
-  Mesh,
   Vector2,
+  Texture,
+  Color3,
 } from "@babylonjs/core";
+import { TriPlanarMaterial } from "@babylonjs/materials/triPlanar";
 import "@babylonjs/loaders";
-import * as GUI from "@babylonjs/gui";
 
 import Coordinate from "@/components/Coordinate";
 import { Image } from "@babylonjs/gui/2D";
@@ -22,8 +23,8 @@ export default class BasicScene {
     this.engine = new Engine(canvas);
     this.scene = this.CreateScene(canvas);
 
-    // const coordinate = new Coordinate(this.scene);
-    // coordinate.ShowAxis(10);
+    const coordinate = new Coordinate(this.scene);
+    coordinate.ShowAxis(10);
 
     this.engine.runRenderLoop(() => {
       this.scene.render();
@@ -37,11 +38,11 @@ export default class BasicScene {
       "camera",
       Math.PI / 2,
       Math.PI / 4,
-      300,
+      50,
       Vector3.Zero()
     );
     camera.lowerRadiusLimit = 2; //相机最小距离
-    camera.upperRadiusLimit = 300; //相机最大距离
+    camera.upperRadiusLimit = 100; //相机最大距离
     camera.wheelDeltaPercentage = 0.01; //鼠标滚轮缩放速度
     scene.activeCamera = camera; //激活相机
     scene.activeCamera.attachControl(canvas, true); //激活相机
@@ -57,16 +58,23 @@ export default class BasicScene {
       new Vector3(0, 1, 0),
       this.scene
     );
+    hemisphericLight.diffuse = new Color3(1, 1, 0.3);
+    hemisphericLight.intensity = 2;
+    hemisphericLight.groundColor = new Color3(0.69, 0.87, 0.6);
   }
   // 创建物体
   async CreateMeshes() {
-    const box = MeshBuilder.CreateBox("box", { size: 2 });
-    const ground = MeshBuilder.CreateGround("ground", {
-      width: 6,
-      height: 6,
-      subdivisions: 2,
-    });
-    ground.position = new Vector3(0, -3, 0);
+    const ground = MeshBuilder.CreateGroundFromHeightMap(
+      "ground",
+      "/GUI/heightMap.png",
+      { width: 300, height: 300, subdivisions: 100, maxHeight: 30 }
+    );
+    ground.position = new Vector3(0, 0, 0);
+    const groundMaterial = new TriPlanarMaterial("groundMaterial");
+    groundMaterial.diffuseTextureX = new Texture("/GUI/sand.jpg");
+    groundMaterial.diffuseTextureY = new Texture("/GUI/rock.png");
+    groundMaterial.diffuseTextureZ = new Texture("/GUI/grass.jpg");
+    ground.material = groundMaterial;
   }
   // 创建GUI
   CreateHolographicSlate() {
@@ -84,7 +92,10 @@ export default class BasicScene {
     const slateImage = new Image("slateImg", "/Materials/MonaLisa.jpeg");
     slateImage.stretch = Image.STRETCH_UNIFORM; // 等比拉伸填充控件
     holographicSlate.content = slateImage; // 设置内容
-    holographicSlate.position = new Vector3(0, 0, 0);
+    holographicSlate.position = new Vector3(0, 30, 0);
+
     manager.addControl(holographicSlate);
+
+    // 创建按钮
   }
 }
