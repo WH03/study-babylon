@@ -77,7 +77,9 @@ import "./css/style.css";
 // import BasicScene from "@/GUI/NearMenu"; //菜单
 // import BasicScene from "@/Behaviors/Bouncing"; //相机弹跳旋转
 // import BasicScene from "@/Behaviors/Framing"; //框架行为
-import BasicScene from "@/Behaviors/Drag"; //拖拽行为
+// import BasicScene from "@/Behaviors/Drag"; //拖拽行为
+// import BasicScene from "@/Behaviors/SixDofDrag"; //六自由度拖拽行为
+import BasicScene from "@/Events/ActionMeshes"; //动作网格
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);

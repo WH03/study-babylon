@@ -1,7 +1,6 @@
 /* 
     模型拖拽
 */
-
 import {
   Engine,
   Scene,
@@ -9,7 +8,6 @@ import {
   Vector3,
   HemisphericLight,
   MeshBuilder,
-  FramingBehavior,
   Mesh,
   Color3,
   PointerDragBehavior,
@@ -82,21 +80,20 @@ export default class BasicScene {
     });
     pointerDragBehavior.useObjectOrientationForDragging = false; //使用对象方向
     pointerDragBehavior.updateDragPlane = false; //更新拖拽平面
-    // Use drag plane in world space
+    //使用对象方向
     pointerDragBehavior.useObjectOrientationForDragging = false;
 
-    // Listen to drag events
+    //开始拖拽事件
     pointerDragBehavior.onDragStartObservable.add((event) => {
-      console.log("dragStart");
-      console.log(event);
+      console.log("开始拖拽event", event);
     });
+    // 拖拽事件
     pointerDragBehavior.onDragObservable.add((event) => {
-      console.log("drag");
-      console.log(event);
+      console.log("拖拽中event", event);
     });
+    //拖拽结束事件
     pointerDragBehavior.onDragEndObservable.add((event) => {
-      console.log("dragEnd");
-      console.log(event);
+      console.log("拖拽结束event", event);
     });
 
     box.addBehavior(pointerDragBehavior);
