@@ -30,7 +30,7 @@ export default class BasicScene {
     this.scene = this.CreateScene(canvas);
 
     const coordinate = new Coordinate(this.scene);
-    // coordinate.ShowAxis(100);
+    coordinate.ShowAxis(100);
 
     this.engine.runRenderLoop(() => {
       this.scene.render();
@@ -102,8 +102,8 @@ export default class BasicScene {
 
     // 创建一个红色立方体的材质
     const redBoxMaterial = new StandardMaterial("redBoxMaterial");
-    redBoxMaterial.diffuseColor = new Color3(0.4, 0.4, 0.4);
-    redBoxMaterial.specularColor = new Color3(0.4, 0.4, 0.4);
+    redBoxMaterial.diffuseColor = new Color3(0.5, 0.5, 0.5);
+    redBoxMaterial.specularColor = new Color3(0.5, 0.5, 0.5);
     redBoxMaterial.emissiveColor = Color3.Red();
     redBox.material = redBoxMaterial;
 
@@ -170,7 +170,6 @@ export default class BasicScene {
         conditionOn
       )
     );
-
     // 创建一个圆环
     const torus = MeshBuilder.CreateTorus("torus", {
       diameter: 20, //圆环的直径
@@ -204,116 +203,19 @@ export default class BasicScene {
         new Vector3(1, 1, 1)
       )
     );
-    // 盒子自传
-    const rotate = (mesh: Mesh) => {
-      mesh.actionManager = new ActionManager();
-      scene.actionManager.registerAction(
-        new IncrementValueAction(
-          ActionManager.OnEveryFrameTrigger,
-          mesh,
-          "rotation.y",
-          0.01
-        )
-      );
-    };
-    rotate(redBox);
-    rotate(greenBox);
-    rotate(blueBox);
-    // 点击圆环改变颜色
-    const pickMesh = (mesh: Mesh, color: Color3, light: PointLight) => {
-      // 点击控制灯光
-      mesh.actionManager
-        ?.registerAction(
-          new CombineAction(ActionManager.OnPickTrigger, [
-            new InterpolateValueAction(
-              ActionManager.NothingTrigger,
-              light,
-              "diffuse",
-              Color3.Black(),
-              1000
-            ),
-            new SetStateAction(ActionManager.NothingTrigger, light, "off"),
-            // 改为线框模式
-            new SetValueAction(
-              ActionManager.NothingTrigger,
-              mesh.material,
-              "wireframe",
-              true
-            ),
-          ])
-        )
-        ?.then(
-          new CombineAction(ActionManager.OnPickTrigger, [
-            // 点击恢复
-            new InterpolateValueAction(
-              ActionManager.NothingTrigger,
-              light,
-              "diffuse",
-              color,
-              1000
-            ),
-            new SetStateAction(ActionManager.NothingTrigger, light, "on"),
-            new SetValueAction(
-              ActionManager.NothingTrigger,
-              mesh.material,
-              "wireframe",
-              false
-            ),
-          ])
-        );
-    };
-    pickMesh(redBox, Color3.Red(), redPointLight);
-    pickMesh(greenBox, Color3.Green(), greenPointLight);
-    pickMesh(blueBox, Color3.Blue(), bluePointLight);
 
-    // 鼠标滑过圆环动作
-    const mouseOverOut = (mesh: Mesh) => {
-      // 鼠标滑过
-      mesh.actionManager?.registerAction(
-        // 变为白色
-        new SetValueAction(
-          ActionManager.OnPointerOverTrigger,
-          mesh,
-          "material.emissiveColor",
-          Color3.White()
-        )
-      );
-      //放大
-      mesh.actionManager?.registerAction(
-        // 放大
-        new InterpolateValueAction(
-          ActionManager.OnPointerOverTrigger,
-          mesh,
-          "scaling",
-          new Vector3(1.2, 1.2, 1.2),
-          200
-        )
-      );
-      // 鼠标离开
-      mesh.actionManager?.registerAction(
-        new SetValueAction(
-          ActionManager.OnPointerOutTrigger,
-          mesh,
-          "material.emissiveColor",
-          (mesh.material as StandardMaterial).emissiveColor
-        )
-      );
-      // 缩小
-      mesh.actionManager?.registerAction(
-        new InterpolateValueAction(
-          ActionManager.OnPointerOutTrigger,
-          mesh,
-          "scaling",
-          new Vector3(1, 1, 1),
-          200
-        )
-      );
-    };
+    this.Rotate(redBox, scene);
+    this.Rotate(greenBox, scene);
+    this.Rotate(blueBox, scene);
 
-    mouseOverOut(redBox);
-    mouseOverOut(greenBox);
-    mouseOverOut(blueBox);
-    mouseOverOut(purpleSphere);
+    this.PickMesh(redBox, Color3.Red(), redPointLight);
+    this.PickMesh(greenBox, Color3.Green(), greenPointLight);
+    this.PickMesh(blueBox, Color3.Blue(), bluePointLight);
+
+    this.MouseOverOut(redBox);
+    this.MouseOverOut(greenBox);
+    this.MouseOverOut(blueBox);
+    this.MouseOverOut(purpleSphere);
     // 圆环圆周运动
     let alpha = 0;
     scene.registerBeforeRender(() => {
@@ -325,4 +227,105 @@ export default class BasicScene {
       alpha += 0.02;
     });
   }
+
+  // 盒子自传
+  Rotate = (mesh: Mesh, scene: Scene) => {
+    mesh.actionManager = new ActionManager();
+    scene.actionManager.registerAction(
+      new IncrementValueAction(
+        ActionManager.OnEveryFrameTrigger,
+        mesh,
+        "rotation.y",
+        0.01
+      )
+    );
+  };
+
+  // 鼠标滑过圆环动作
+  MouseOverOut = (mesh: Mesh) => {
+    // 鼠标滑过
+    mesh.actionManager?.registerAction(
+      // 变为白色
+      new SetValueAction(
+        ActionManager.OnPointerOverTrigger,
+        mesh,
+        "material.emissiveColor",
+        Color3.White()
+      )
+    );
+    //放大
+    mesh.actionManager?.registerAction(
+      // 放大
+      new InterpolateValueAction(
+        ActionManager.OnPointerOverTrigger,
+        mesh,
+        "scaling",
+        new Vector3(1.2, 1.2, 1.2),
+        200
+      )
+    );
+    // 鼠标离开
+    mesh.actionManager?.registerAction(
+      new SetValueAction(
+        ActionManager.OnPointerOutTrigger,
+        mesh,
+        "material.emissiveColor",
+        (mesh.material as StandardMaterial).emissiveColor
+      )
+    );
+    // 缩小
+    mesh.actionManager?.registerAction(
+      new InterpolateValueAction(
+        ActionManager.OnPointerOutTrigger,
+        mesh,
+        "scaling",
+        new Vector3(1, 1, 1),
+        200
+      )
+    );
+  };
+
+  // 点击圆环改变颜色
+  PickMesh = (mesh: Mesh, color: Color3, light: PointLight) => {
+    // 点击控制灯光
+    mesh.actionManager
+      ?.registerAction(
+        new CombineAction(ActionManager.OnPickTrigger, [
+          new InterpolateValueAction(
+            ActionManager.NothingTrigger,
+            light,
+            "diffuse",
+            Color3.Black(),
+            1000
+          ),
+          new SetStateAction(ActionManager.NothingTrigger, light, "off"),
+          // 改为线框模式
+          new SetValueAction(
+            ActionManager.NothingTrigger,
+            mesh.material,
+            "wireframe",
+            true
+          ),
+        ])
+      )
+      ?.then(
+        new CombineAction(ActionManager.OnPickTrigger, [
+          // 点击恢复
+          new InterpolateValueAction(
+            ActionManager.NothingTrigger,
+            light,
+            "diffuse",
+            color,
+            1000
+          ),
+          new SetStateAction(ActionManager.NothingTrigger, light, "on"),
+          new SetValueAction(
+            ActionManager.NothingTrigger,
+            mesh.material,
+            "wireframe",
+            false
+          ),
+        ])
+      );
+  };
 }
