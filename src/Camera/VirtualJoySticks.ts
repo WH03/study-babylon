@@ -32,7 +32,7 @@ export default class BasicScene {
   //创建场景
   CreateScene(canvas: HTMLCanvasElement): Scene {
     const scene = new Scene(this.engine);
-    scene.useRightHandedSystem = true;
+    // scene.useRightHandedSystem = true;
     const camera = new ArcRotateCamera(
       "camera",
       -Math.PI / 2,

@@ -87,7 +87,8 @@ import "./css/style.css";
 // import BasicScene from "@/Camera/UniversalCamera"; //通用相机
 // import BasicScene from "@/Camera/ArcRotateCamera"; //圆环相机
 // import BasicScene from "@/Camera/FollowCamera"; //跟随相机
-import BasicScene from "@/Camera/VirtualJoySticks"; //虚拟摇杆
+// import BasicScene from "@/Camera/VirtualJoySticks"; //虚拟摇杆
+import BasicScene from "@/Camera/VRDevice"; // VR设备
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);
