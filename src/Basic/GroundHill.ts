@@ -83,6 +83,5 @@ export default class BasicScene {
       "https://assets.babylonjs.com/meshes/valleyvillage.glb",
       this.scene
     );
-
   }
 }

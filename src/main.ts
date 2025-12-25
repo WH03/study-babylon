@@ -83,6 +83,11 @@ import "./css/style.css";
 // import BasicScene from "@/Events/SpriteAction"; //精灵动作
 // import BasicScene from "@/Events/PlayAction"; //播放动作
 // import BasicScene from "@/Events/SimpleObservable"; //简单可观察对象
-import BasicScene from "@/Events/TimerObservable"; //计时器可观察对象
+// import BasicScene from "@/Events/TimerObservable"; //计时器可观察对象
+// import BasicScene from "@/Camera/UniversalCamera"; //通用相机
+// import BasicScene from "@/Camera/ArcRotateCamera"; //圆环相机
+// import BasicScene from "@/Camera/FollowCamera"; //跟随相机
+import BasicScene from "@/Camera/VirtualJoySticks"; //虚拟摇杆
+
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);

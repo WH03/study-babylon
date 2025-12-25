@@ -17,6 +17,7 @@ import "@babylonjs/inspector";
 import * as GUI from "@babylonjs/gui"; // GUI
 
 // import Coordinate from "@/components/Coordinate";
+
 import {
   AdvancedDynamicTexture,
   Control,
