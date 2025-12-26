@@ -82,13 +82,5 @@ export default class BasicScene {
         newScene.render();
       });
     });
-
-    // const result = await ImportMeshAsync(
-    //   "/Meshes/Espilit/Espilit.babylon",
-    //   this.scene
-    // );
-
-    // const modelRoot = result.meshes[0] as Mesh;
-    // console.log(modelRoot);
   }
 }
