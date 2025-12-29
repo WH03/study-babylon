@@ -7,8 +7,6 @@ import {
   Vector3,
   HemisphericLight,
   MeshBuilder,
-  VRDeviceOrientationFreeCamera,
-  VRDeviceOrientationArcRotateCamera,
   Mesh,
   VRDeviceOrientationGamepadCamera,
 } from "@babylonjs/core";

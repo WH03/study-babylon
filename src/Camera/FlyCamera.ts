@@ -1,11 +1,9 @@
 import {
   Engine,
   Scene,
-  ArcRotateCamera,
   Vector3,
   HemisphericLight,
   MeshBuilder,
-  ImportMeshAsync,
   FlyCamera,
 } from "@babylonjs/core";
 import "@babylonjs/loaders";

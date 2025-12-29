@@ -43,7 +43,7 @@ export default class BasicScene {
     camera.attachControl(canvas, true);
     this.CreateLight(); //创建光源
 
-    this.CreateMesh(scene);
+    this.CreateMesh();
 
     this.LoadModel(canvas); //加载模型
     return scene;
@@ -57,8 +57,8 @@ export default class BasicScene {
     );
   }
   //创建物体
-  CreateMesh(scene: Scene): void {
-    const box = MeshBuilder.CreateBox("box", { size: 2 }, this.scene);
+  CreateMesh(): void {
+    const box = MeshBuilder.CreateBox("box", { size: 2 });
   }
 
   //加载模型
