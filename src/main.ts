@@ -89,7 +89,9 @@ import "./css/style.css";
 // import BasicScene from "@/Camera/FollowCamera"; //跟随相机
 // import BasicScene from "@/Camera/VirtualJoySticks"; //虚拟摇杆
 // import BasicScene from "@/Camera/VRDevice"; // VR设备
-import BasicScene from "@/Camera/FlyCamera"; // 飞行相机
+// import BasicScene from "@/Camera/FlyCamera"; // 飞行相机
+// import BasicScene from "@/Camera/CameraCollision"; // 相机碰撞
+import BasicScene from "@/Camera/MeshCollision"; // 模型碰撞
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);
