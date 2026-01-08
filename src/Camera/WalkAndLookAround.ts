@@ -9,12 +9,14 @@ import {
   Texture,
   Mesh,
   LinesMesh,
-  ArcRotateCamera,
   Matrix,
+  UniversalCamera,
+  Viewport,
 } from "@babylonjs/core";
 import "@babylonjs/loaders";
 
 import Coordinate from "@/components/Coordinate";
+import FreeCameraKeyboardRotateInput from "@/components/FreeCameraKeyboard";
 
 export default class BasicScene {
   engine: Engine;
@@ -34,19 +36,39 @@ export default class BasicScene {
   CreateScene(canvas: HTMLCanvasElement): Scene {
     const scene = new Scene(this.engine);
     scene.useRightHandedSystem = true;
+
     scene.gravity = new Vector3(0, -9.81, 0);
     scene.collisionsEnabled = true; //开启碰撞检测
 
-    //创建相机
-    const arcRotateCamera = new ArcRotateCamera(
-      "arcRotateCamera",
-      -Math.PI / 2,
-      Math.PI / 2.5,
-      20,
-      Vector3.Zero(),
-      scene
+    //第一人称视角
+    const universalCamera = new UniversalCamera(
+      "universalCamera",
+      new Vector3(0, 3, -20)
     );
-    arcRotateCamera.attachControl(canvas, true);
+    universalCamera.minZ = 0.0001; //设置相机最小距离
+    universalCamera.speed = 0.02; //设置相机移动速度
+    // 移除默认的键盘输入事件
+    universalCamera.inputs.removeByType("FreeCameraKeyboardMoveInput");
+    // 添加自定义的键盘输入事件
+    universalCamera.inputs.add(new FreeCameraKeyboardRotateInput(0.1));
+    universalCamera.checkCollisions = true;
+    universalCamera.applyGravity = true;
+    universalCamera.ellipsoid = new Vector3(1.5, 1, 1.5); //设置相机碰撞体积
+
+    // 第三人称视角
+    const viewCamera = new UniversalCamera(
+      "viewCamera",
+      new Vector3(0, 3, -40)
+    );
+    viewCamera.parent = universalCamera;
+    viewCamera.setTarget(Vector3.Zero());
+
+    // 添加活动相机
+    scene.activeCameras?.push(universalCamera, viewCamera);
+
+    // 添加两个视口，一个用于第一人称视角，一个用于第三人称视角
+    universalCamera.viewport = new Viewport(0, 0.5, 1, 0.5); //第一人称视角
+    viewCamera.viewport = new Viewport(0, 0, 1, 0.5); //第三人称视角
 
     this.CreateLight(); //创建光源
     this.CreateMesh(scene); //创建物体
