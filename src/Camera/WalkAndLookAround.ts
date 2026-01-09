@@ -16,7 +16,7 @@ import {
 import "@babylonjs/loaders";
 
 import Coordinate from "@/components/Coordinate";
-import FreeCameraKeyboardRotateInput from "@/components/FreeCameraKeyboard";
+import FreeCameraKeyboardRotateInput from "@/components/WalkCameraKeyboard";
 
 export default class BasicScene {
   engine: Engine;
@@ -35,7 +35,7 @@ export default class BasicScene {
   //创建场景
   CreateScene(canvas: HTMLCanvasElement): Scene {
     const scene = new Scene(this.engine);
-    scene.useRightHandedSystem = true;
+    // scene.useRightHandedSystem = true;
 
     scene.gravity = new Vector3(0, -9.81, 0);
     scene.collisionsEnabled = true; //开启碰撞检测
@@ -43,7 +43,7 @@ export default class BasicScene {
     //第一人称视角
     const universalCamera = new UniversalCamera(
       "universalCamera",
-      new Vector3(0, 3, -20)
+      new Vector3(0, 1, -15)
     );
     universalCamera.minZ = 0.0001; //设置相机最小距离
     universalCamera.speed = 0.02; //设置相机移动速度
@@ -54,11 +54,11 @@ export default class BasicScene {
     universalCamera.checkCollisions = true;
     universalCamera.applyGravity = true;
     universalCamera.ellipsoid = new Vector3(1.5, 1, 1.5); //设置相机碰撞体积
-
+    universalCamera.attachControl(canvas, true);
     // 第三人称视角
     const viewCamera = new UniversalCamera(
       "viewCamera",
-      new Vector3(0, 3, -40)
+      new Vector3(0, 10, -20)
     );
     viewCamera.parent = universalCamera;
     viewCamera.setTarget(Vector3.Zero());
@@ -71,7 +71,7 @@ export default class BasicScene {
     viewCamera.viewport = new Viewport(0, 0, 1, 0.5); //第三人称视角
 
     this.CreateLight(); //创建光源
-    this.CreateMesh(scene); //创建物体
+    this.CreateMesh(scene, universalCamera); //创建物体
     return scene;
   }
 
@@ -82,7 +82,7 @@ export default class BasicScene {
     );
   }
   //创建物体
-  CreateMesh(scene: Scene): void {
+  CreateMesh(scene: Scene, camera: UniversalCamera): void {
     const boxMaterial = new StandardMaterial("boxMaterial");
     boxMaterial.diffuseTexture = new Texture("/Materials/box.png");
     const box = MeshBuilder.CreateBox("box", {
@@ -123,17 +123,17 @@ export default class BasicScene {
       );
     }
 
-    this.CreatePerson(scene); //创建观察者
+    this.CreatePerson(scene, camera); //创建观察者
   }
 
   // 创建一个人（模型），作为观察者
-  CreatePerson(scene: Scene) {
+  CreatePerson(scene: Scene, camera: UniversalCamera) {
     const forward = new Vector3(0, 0, 1); // 设置前进方向
     const extra = 0.1; //  // 中心点位置
 
     const base = new Mesh("base");
     base.checkCollisions = true;
-
+    base.parent = camera;
     const headDiameter = 1.5;
     const bodyDiameter = 2;
     const offsetY = (bodyDiameter + headDiameter) / 2 + extra; // 中心点位置

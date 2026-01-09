@@ -93,7 +93,9 @@ import "./css/style.css";
 // import BasicScene from "@/Camera/CameraCollision"; // 相机碰撞
 // import BasicScene from "@/Camera/MeshCollision"; // 模型碰撞
 // import BasicScene from "@/Camera/RotateFreeCamera"; // 相机输入
-import BasicScene from "@/Camera/WalkAndLookAround"; // 行走和环顾
+// import BasicScene from "@/Camera/WalkAndLookAround"; // 行走和环顾
+// import BasicScene from "@/Camera/LayerMask"; // 层遮罩
+import BasicScene from "@/Camera/GunSight"; // 准星
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);
