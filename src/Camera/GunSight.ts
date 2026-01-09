@@ -21,8 +21,8 @@ export default class BasicScene {
     this.engine = new Engine(canvas);
     this.scene = this.CreateScene(canvas);
 
-    // const coordinate = new Coordinate(this.scene);
-    // coordinate.ShowAxis(10);
+    const coordinate = new Coordinate(this.scene);
+    coordinate.ShowAxis(10);
 
     this.engine.runRenderLoop(() => {
       this.scene.render();
