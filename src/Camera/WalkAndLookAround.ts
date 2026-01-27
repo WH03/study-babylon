@@ -1,3 +1,6 @@
+/* 
+  自定义键盘事件，通过键盘设置物体碰撞
+*/
 import {
   Engine,
   Scene,
@@ -72,6 +75,7 @@ export default class BasicScene {
 
     this.CreateLight(); //创建光源
     this.CreateMesh(scene, universalCamera); //创建物体
+    
     return scene;
   }
 

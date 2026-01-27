@@ -23,7 +23,7 @@ export default class BasicScene {
 
     const coordinate = new Coordinate(this.scene);
     coordinate.ShowAxis(10);
-
+ 
     this.engine.runRenderLoop(() => {
       this.scene.render();
     });
@@ -91,11 +91,12 @@ export default class BasicScene {
     lineTop.position = new Vector3(0, height * 0.5, 0);
     meshes.push(lineTop);
 
-    //
+    //合并几何体
     const gunSight = Mesh.MergeMeshes(meshes) as Mesh;
     gunSight.name = "gunSight";
     gunSight.layerMask = 0x20000000; //设置准星可见层
 
+    // 创建材质
     const gunSightMaterial = new StandardMaterial("standardMaterial");
     gunSightMaterial.checkReadyOnlyOnce = true;
     gunSightMaterial.emissiveColor = new Color3(0, 1, 0);
