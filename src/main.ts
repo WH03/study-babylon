@@ -95,7 +95,11 @@ import "./css/style.css";
 // import BasicScene from "@/Camera/RotateFreeCamera"; // 相机输入
 // import BasicScene from "@/Camera/WalkAndLookAround"; // 行走和环顾
 // import BasicScene from "@/Camera/LayerMask"; // 层遮罩
-import BasicScene from "@/Camera/GunSight"; // 准星
+// import BasicScene from "@/Camera/GunSight"; // 准星
+
+// import BasicScene from "@/Environment/Introduce"; // 环境介绍
+// import BasicScene from "@/Environment/SkyBox"; // 天空盒
+import BasicScene from "@/Environment/FogScene"; // 雾
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);
