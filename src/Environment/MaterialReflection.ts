@@ -11,6 +11,7 @@ import {
   StandardMaterial,
   CubeTexture,
   Texture,
+  Mesh,
 } from "@babylonjs/core";
 import "@babylonjs/loaders";
 
@@ -37,18 +38,6 @@ export default class BasicScene {
     scene.clearColor = new Color4(0.2, 0.2, 0.3, 1);
     scene.ambientColor = new Color3(0.5, 0.8, 0.5);
 
-    // 设置雾效
-    scene.fogMode = Scene.FOGMODE_EXP;
-    scene.fogDensity = 0.001; //雾效密度
-    scene.fogColor = new Color3(0.9, 0.9, 0.85);
-
-    // 雾效渐变
-    let alpha = 0;
-    scene.registerBeforeRender(() => {
-      alpha += 0.01;
-      scene.fogDensity = Math.cos(alpha) / 10;
-    });
-
     const camera = new ArcRotateCamera(
       "camera",
       Math.PI / 2,
@@ -65,7 +54,7 @@ export default class BasicScene {
 
     this.CreateLight(); //创建光源
 
-    this.CreateModel();
+    this.CreateMesh();
     // this.ImportMeshes();
     // this.CreateHDRBox(scene); //创建天空盒
     this.CreateSkyBox(scene); //创建天空盒
@@ -81,14 +70,11 @@ export default class BasicScene {
     hemisphericLight.intensity = 0.7;
   }
   //创建物体
-  CreateModel(): void {
-    const material = new StandardMaterial("material");
-    material.diffuseColor = new Color3(1, 1, 0);
-    for (let i = 0; i < 10; i++) {
-      const box = MeshBuilder.CreateBox("box", { size: 1 }, this.scene);
-      box.material = material;
-      box.position = new Vector3(0, 0, i * 5);
-    }
+  CreateMesh(): void {
+    const box = MeshBuilder.CreateBox("box", { size: 1 }, this.scene);
+    // const material = new StandardMaterial("material");
+    // material.ambientColor = new Color3(0.5, 0.5, 0.3);
+    // box.material = material;
   }
 
   //导入模型
@@ -104,13 +90,16 @@ export default class BasicScene {
   }
 
   CreateSkyBox(scene: Scene): void {
-    const skyBox = MeshBuilder.CreateBox("skyBox", { size: 1000 }, scene);
+    const skyBox = MeshBuilder.CreateBox(
+      "skyBox",
+      { size: 1000, sideOrientation: Mesh.BACKSIDE },
+      scene
+    );
     const skyBoxMaterial = new StandardMaterial("skyBoxMaterial");
-    skyBoxMaterial.backFaceCulling = false; //设置材质是否进行背面剔除
+    // skyBoxMaterial.backFaceCulling = false; //设置材质是否进行背面剔除
     skyBoxMaterial.reflectionTexture = new CubeTexture(
-      "/textures/skybox/",
-      scene,
-      ["px.jpg", "py.jpg", "pz.jpg", "nx.jpg", "ny.jpg", "nz.jpg"]
+      "/textures/TropicalSunnyDay/TropicalSunnyDay",
+      scene
     );
     // 设置天空盒的纹理坐标模式
     skyBoxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;

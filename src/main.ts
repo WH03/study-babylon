@@ -99,7 +99,11 @@ import "./css/style.css";
 
 // import BasicScene from "@/Environment/Introduce"; // 环境介绍
 // import BasicScene from "@/Environment/SkyBox"; // 天空盒
-import BasicScene from "@/Environment/FogScene"; // 雾
+// import BasicScene from "@/Environment/FogScene"; // 雾
+// import BasicScene from "@/Environment/MaterialDiffuse"; // 材质漫反射
+// import BasicScene from "@/Environment/MaterialOpacity"; // 材质透明度
+// import BasicScene from "@/Environment/MaterialReflection"; // 材质反射
+import BasicScene from "@/Environment/MaterialMirror"; // 材质镜像
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);
