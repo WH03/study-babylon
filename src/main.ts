@@ -103,7 +103,11 @@ import "./css/style.css";
 // import BasicScene from "@/Environment/MaterialDiffuse"; // 材质漫反射
 // import BasicScene from "@/Environment/MaterialOpacity"; // 材质透明度
 // import BasicScene from "@/Environment/MaterialReflection"; // 材质反射
-import BasicScene from "@/Environment/MaterialMirror"; // 材质镜像
+// import BasicScene from "@/Environment/MaterialMirror"; // 材质镜像
+// import BasicScene from "@/Environment/MaterialFresnel"; // 材质菲涅尔
+// import BasicScene from "@/Environment/LensFlares"; // 镜头光晕
+// import BasicScene from "@/Environment/ReflectionProbes"; // 反射探针
+import BasicScene from "@/Environment/Photo360"; // 全景照片
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);
