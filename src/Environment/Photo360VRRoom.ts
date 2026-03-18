@@ -7,6 +7,8 @@ import {
   MeshBuilder,
   PhotoDome,
   PointerEventTypes,
+  ExecuteCodeAction,
+  ActionManager,
 } from "@babylonjs/core";
 import "@babylonjs/loaders";
 
@@ -29,7 +31,8 @@ export default class BasicScene {
   //创建场景
   CreateScene(canvas: HTMLCanvasElement): Scene {
     const scene = new Scene(this.engine);
-    scene.useRightHandedSystem = true;
+    // scene.useRightHandedSystem = true;
+    this.CreateVRHelper(scene); //创建VR助手
     const camera = new ArcRotateCamera(
       "camera",
       Math.PI / 2,
@@ -47,6 +50,7 @@ export default class BasicScene {
     this.CreateLight(); //创建光源
     this.CreateMesh(); //创建物体
     this.CreatePhoto360(scene); //创建全景图
+
     return scene;
   }
 
@@ -67,14 +71,14 @@ export default class BasicScene {
   CreatePhoto360(scene: Scene): void {
     const photo360 = new PhotoDome(
       "photo360",
-      "/textures/360photo.jpg",
+      "/textures/sidexside.jpg",
       {
         resolution: 32, // 分辨率
         size: 1000, // 大小
-        useDirectMapping: false, // 是否使用直接映射
       },
       scene
     ); // 创建全景图
+    photo360.imageMode = PhotoDome.MODE_SIDEBYSIDE; // 设置全景图模式
 
     let tickCout = -240,
       zoomLevel = 1;
@@ -101,5 +105,35 @@ export default class BasicScene {
         tickCout = -60;
       }
     }, PointerEventTypes.POINTERWHEEL);
+  }
+
+  CreateVRHelper(scene: Scene) {
+    const vrHelper = scene.createDefaultVRExperience();
+    scene.actionManager?.registerAction(
+      // 创建一个 ExecuteCodeAction
+      new ExecuteCodeAction(
+        {
+          trigger: ActionManager.OnKeyDownTrigger,
+          parameter: "s", //press "s" key
+        },
+        () => {
+          vrHelper.enterVR();
+        }
+      )
+    );
+
+    // 从全屏切换到2d
+    scene.actionManager?.registerAction(
+      new ExecuteCodeAction(
+        {
+          trigger: ActionManager.OnKeyDownTrigger,
+          parameter: "e", //press "e" key
+        },
+        () => {
+          vrHelper.exitVR();
+          document.exitFullscreen();
+        }
+      )
+    );
   }
 }

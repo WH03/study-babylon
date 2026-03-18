@@ -5,6 +5,7 @@ import {
   Vector3,
   HemisphericLight,
   MeshBuilder,
+  VideoDome,
 } from "@babylonjs/core";
 import "@babylonjs/loaders";
 
@@ -38,12 +39,15 @@ export default class BasicScene {
     camera.lowerRadiusLimit = 2; //相机最小距离
     camera.upperRadiusLimit = 30; //相机最大距离
     camera.wheelDeltaPercentage = 0.01; //鼠标滚轮缩放速度
-    camera.attachControl(canvas, true); //激活相机
+    camera.attachControl(canvas, true);
+    camera.inputs.attached.mousewheel.detachControl(); //禁用鼠标滚轮缩放
     scene.activeCamera = camera; //激活相机
     scene.activeCamera.attachControl(canvas, true); //激活相机
 
     this.CreateLight(); //创建光源
+
     this.CreateMesh();
+    this.CreateVideoDome(scene);
     return scene;
   }
 
@@ -57,5 +61,20 @@ export default class BasicScene {
   //创建物体
   CreateMesh(): void {
     const box = MeshBuilder.CreateBox("box", { size: 1 }, this.scene);
+  }
+
+  // 创建视频穹顶
+  CreateVideoDome(scene: Scene) {
+    const videoDome = new VideoDome(
+      "videoDome",
+      "/textures/t2.mp4",
+      {
+        resolution: 32,
+        size: 50,
+        autoPlay: false,
+        clickToPlay: true,
+      },
+      scene
+    );
   }
 }

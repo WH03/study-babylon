@@ -99,6 +99,7 @@ import "./css/style.css";
 
 // import BasicScene from "@/Environment/Introduce"; // 环境介绍
 // import BasicScene from "@/Environment/SkyBox"; // 天空盒
+import BasicScene from "@/Environment/GroundProjection"; // 地面投影
 // import BasicScene from "@/Environment/FogScene"; // 雾
 // import BasicScene from "@/Environment/MaterialDiffuse"; // 材质漫反射
 // import BasicScene from "@/Environment/MaterialOpacity"; // 材质透明度
@@ -107,7 +108,9 @@ import "./css/style.css";
 // import BasicScene from "@/Environment/MaterialFresnel"; // 材质菲涅尔
 // import BasicScene from "@/Environment/LensFlares"; // 镜头光晕
 // import BasicScene from "@/Environment/ReflectionProbes"; // 反射探针
-import BasicScene from "@/Environment/Photo360"; // 全景照片
+// import BasicScene from "@/Environment/Photo360"; // 全景照片
+// import BasicScene from "@/Environment/Photo360VRRoom"; // 全景照片 VR 房间
+// import BasicScene from "@/Environment/Video360"; // 全景视频
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
 new BasicScene(canvas);
